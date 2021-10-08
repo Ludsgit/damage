@@ -1,9 +1,10 @@
 {
 	"files": {
 		"config.json": "27bb50d3e493e6182ad90b3c11a33791fe49a0795f1b8c0d9212f27758943e53",
-		"index.js": "06d161fa741cd4065b58db317df343c09306e52a448124773a572a6f2b4fc0ca",
-		"module.json": "78f5e2f6e8746925fa1e2eab26fa1fdef7be6ac7c90addbc2f24e62defb5f23e",
-		"README.md": "37250ae538bab67b976a21a9e44afd5d7a2e8b422f2259d259a248e11b5b5413",
+		"index.js": "773e77ba8fe3eedac3229ad4beb4fbbe1d23d8940cb58736fec0117b2658b184",
+		"LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+		"module.json": "403bf73e149ed50cb0b189ea94b061a96faca642a801cf2df0b2dc91889e8c95",
+		"README.md": "fe0fdf3453e1f478d31567a24efdd303c00dd60aa5c19536883832349f55478e",
 		"settings_migrator.js": "4db76bd6b4e0fa23d77a614f959cbfdc17f75c4485be185e8144d9e2a77832d7"
 	}
 }
