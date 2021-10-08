@@ -123,7 +123,7 @@ Amplification aura tier: ${config.aura_amp}`.clr(clr3))
 							mod.command.message("Aura tier must be from 0 to 5".clr(clr2))
 							return;
 						}
-						config.aura_amp = arg3
+						config.aura_amp = parseInt(arg3)
 						mod.command.message(`Amp aura set to tier ${config.aura_amp}`.clr(clr1))
 						mod.saveSettings()
 						break;
@@ -137,7 +137,7 @@ Pierce aura tier: ${config.aura_pierce}`.clr(clr3))
 							mod.command.message("Aura tier must be from 0 to 5".clr(clr2))
 							return;
 						}
-						config.aura_pierce = arg3
+						config.aura_pierce = parseInt(arg3)
 						mod.command.message(`Pierce aura set to tier ${config.aura_pierce}`.clr(clr1))
 						mod.saveSettings()
 						break;
@@ -151,7 +151,7 @@ Phys resist aura tier: ${config.aura_pres}`.clr(clr3))
 							mod.command.message("Aura tier must be from 0 to 5".clr(clr2))
 							return;
 						}
-						config.aura_pres = arg3
+						config.aura_pres = parseInt(arg3)
 						mod.command.message(`Phys res aura set to tier ${config.aura_pres}`.clr(clr1))
 						mod.saveSettings()
 						break;
@@ -165,7 +165,7 @@ Mag resist aura tier: ${config.aura_mres}`.clr(clr3))
 							mod.command.message("Aura tier must be from 0 to 5".clr(clr2))
 							return;
 						}
-						config.aura_mres = arg3
+						config.aura_mres = parseInt(arg3)
 						mod.command.message(`Mag res aura set to tier ${config.aura_mres}`.clr(clr1))
 						mod.saveSettings()
 						break;
