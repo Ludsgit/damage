@@ -1,6 +1,9 @@
 {
 	"files": {
-		"config.json": "27bb50d3e493e6182ad90b3c11a33791fe49a0795f1b8c0d9212f27758943e53",
+		"config.json": {
+			"overwrite": false,
+			"hash": "27bb50d3e493e6182ad90b3c11a33791fe49a0795f1b8c0d9212f27758943e53"
+		},
 		"index.js": "773e77ba8fe3eedac3229ad4beb4fbbe1d23d8940cb58736fec0117b2658b184",
 		"LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
 		"module.json": "403bf73e149ed50cb0b189ea94b061a96faca642a801cf2df0b2dc91889e8c95",
