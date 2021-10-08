@@ -24,5 +24,5 @@ All commands start with /8 damage:
 - sentence: toggles on/off death sentence effect
 - shred: toggles on/off display of boss defenses with damage modifier
 - inspect: toggles on/off display of damage modifier when inspecting someone
-- - (name) (server): prints damage modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan". If player is in the same server as you, server argument is not needed
+- - (name) (server): prints damage modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
 - power: toggles on/off using power for damage modifier calculation
