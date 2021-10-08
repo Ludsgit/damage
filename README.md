@@ -1,7 +1,7 @@
 # damage
 A tera-toolbox module that calculates the total damage modifier of a character based on ingame stats and the mod settings.
 
-#### Commands
+## Commands
 All commands start with /8 damage:
 
 /8 damage: prints your current damage modifier
