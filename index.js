@@ -298,6 +298,7 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3))
 	})
 	
 	mod.hook("S_USER_PAPERDOLL_INFO", 15, (event) => {
+		mod.command.message("OwO")
 		if(!loaded || config.auto_inspect){
 			
 			critPower = event.critPower + event.critPowerBonus
