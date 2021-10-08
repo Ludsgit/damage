@@ -9,7 +9,7 @@ const aura_pierce = [0, 667, 833, 1000, 1167, 1335]
 const aura_pres = [1, 1.02, 1.025, 1.03, 1.035, 1.04]
 const aura_mres = [1, 1.02, 1.025, 1.03, 1.035, 1.04]
 
-const servers = {"Yurian": 28, "Mystel": 38, "Seren": 29, "Shakan": 40}
+const servers = {"Yurian": 28, "Mystel": 38, "Seren": 29, "Shakan": 40, "Shen": 39, "Velik": 43, "Kaia": 42}
 const classes = [["Warrior", "phys"], ["Lancer", "phys"], ["Slayer", "phys"], ["Berserker", "phys"], ["Sorcerer", "mag"], ["Archer", "phys"], ["Priest", "mag"], ["Mystic", "mag"], ["Reaper", "mag"], ["Gunner", "mag"], ["Brawler", "phys"], ["Ninja", "mag"], ["Valkyrie", "phys"]]
 
 
@@ -272,7 +272,7 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3))
 					})
 					return;
 				}
-				if(["Yurian", "Mystel", "Seren", "Shakan"].indexOf(arg3) !== -1){
+				if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					loaded = false
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
 						serverId: servers[arg3],
@@ -280,7 +280,7 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3))
 						name: arg2				
 					})
 				} else {
-					mod.command.message("The accepted servers are Yurian, Mystel, Seren and Shakan")
+					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen")
 					return;
 				}
 				break;
