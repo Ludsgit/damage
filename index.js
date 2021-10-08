@@ -385,7 +385,7 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3))
 			
 			totalModifier = (critPower * 0.9 + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier)
 			
-			powerFactor = (1 + event.powerBonus / (100 + event.powerBonus) )// * (3 + 0.03 * event.power)
+			powerFactor = (1 + event.powerBonus / (100 + event.power) )
 			
 			totalModifier = totalModifier * (config.power ? powerFactor : 1)
 			shortModifier =  Math.round(totalModifier * 100) / 100
