@@ -4,7 +4,6 @@ const clr1 = '009dff'
 const clr2 = 'f2881e'
 const clr3 = '1ef232'
 
-
 const aura_amp = [1, 1.02, 1.025, 1.03, 1.035, 1.04]
 const aura_pierce = [0, 667, 833, 1000, 1167, 1335]
 const aura_pres = [1, 1.02, 1.025, 1.03, 1.035, 1.04]
