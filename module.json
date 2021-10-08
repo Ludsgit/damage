@@ -10,5 +10,6 @@
 		"settingsFile": "config.json",
 		"settingsVersion": 1,
         "settingsMigrator": "settings_migrator.js"
-    }
+    },
+    "servers": ["https://raw.githubusercontent.com/Ludsgit/damage/main/"]
 }
