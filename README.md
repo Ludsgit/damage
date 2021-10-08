@@ -18,7 +18,7 @@ All commands start with /8 damage:
 - - (type): display current tier of type aura
 - - - (tier): sets type aura to level tier. Possible types are "amp", "pres", "mres", "pierce". Possible tiers are 0 - 5
 - skill: display current skill modifiers and skill crit rate
-- - (type) (value): sets skill type modifier to value. Possible types are "phys", "mag"
+- - (type) (value): sets skill type modifier to value. Possible types are "main", "sec". Phys and mag modifiers are assigned according to class
 - - crit (value): sets the skill crit rate to value%
 - curse: toggles on/off cruel curse effect
 - sentence: toggles on/off death sentence effect
