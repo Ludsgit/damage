@@ -4,7 +4,7 @@
         "tank_res": 241850,
         "healer_res": 285050,
         "boss_res": 92500,
-        "aura_amp": "5",
+        "aura_amp": 5,
         "aura_pres": 5,
         "aura_mres": 5,
         "aura_pierce": 5,
@@ -19,6 +19,6 @@
         "tank": "warrior",
         "shred": true,
         "auto_inspect": true,
-        "power": false
+        "power": true
     }
 }
