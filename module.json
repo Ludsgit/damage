@@ -1,0 +1,14 @@
+{
+    "disableAutoUpdate": true,
+    "name": "damage",
+    "author": "uwu",
+    "description": "Tells you your/someone else's damage modifier",
+    "version": "1",
+    "options": {
+        "niceName": "damage",
+        "reloadable": true,
+		"settingsFile": "config.json",
+		"settingsVersion": 1,
+        "settingsMigrator": "settings_migrator.js"
+    }
+}
