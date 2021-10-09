@@ -18,30 +18,6 @@ module.exports = function Damage(mod){
 	let config = mod.settings;
 	let loaded = true;
 	
-	let critPower = null;
-	let critPowerPhysical = null;
-	let critPowerMagical = null;
-	let defenseReductionPhysical = null;
-	let defenseReductionMagical =null;
-	let piercingPhysical = null;
-	let piercingMagical = null;
-	let attackPhysical = null;
-	let attackMagical = null;
-	let tankShred = null;
-	let healerShred = null;
-	let piercingPhysicalMultiplier = null;
-	let piercingMagicalMultiplier = null;
-	let bossPhysicalDefense = null;
-	let bossMagicalDefense = null;
-	let bossPhysicalDefenseCapped = null;
-	let bossMagicalDefenseCapped = null;
-	let physicalModifier = null;
-	let magicalModifier = null;
-	let totalModifier = null;
-	let shortModifier = null;
-	let powerFactor = null;
-	
-	
 	mod.command.add('damage', (arg1,arg2,arg3) => {
 		if(!arg1){
 			loaded = false
@@ -300,15 +276,15 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3))
 	mod.hook("S_USER_PAPERDOLL_INFO", 15, (event) => {
 		if(!loaded || config.auto_inspect){
 			
-			critPower = event.critPower + event.critPowerBonus
-			critPowerPhysical = event.critPowerPhysical + event.critPowerPhysicalBonus
-			critPowerMagical = event.critPowerMagical + event.critPowerMagicalBonus
-			defenseReductionPhysical = event.defenseReductionPhysical+ event.defenseReductionPhysicalBonus
-			defenseReductionMagical = event.defenseReductionMagical + event.defenseReductionMagicalBonus
-			piercingPhysical = event.piercingPhysical + event.piercingPhysicalBonus
-			piercingMagical = event.piercingMagical + event.piercingMagicalBonus
-			attackPhysical = event.attackPhysicalMin + event.attackPhysicalMinBonus
-			attackMagical = event.attackMagicalMin + event.attackMagicalMinBonus
+			let critPower = event.critPower + event.critPowerBonus;
+			let critPowerPhysical = event.critPowerPhysical + event.critPowerPhysicalBonus;
+			let critPowerMagical = event.critPowerMagical + event.critPowerMagicalBonus;
+			let defenseReductionPhysical = event.defenseReductionPhysical+ event.defenseReductionPhysicalBonus;
+			let defenseReductionMagical = event.defenseReductionMagical + event.defenseReductionMagicalBonus;
+			let piercingPhysical = event.piercingPhysical + event.piercingPhysicalBonus;
+			let piercingMagical = event.piercingMagical + event.piercingMagicalBonus;
+			let attackPhysical = event.attackPhysicalMin + event.attackPhysicalMinBonus;
+			let attackMagical = event.attackMagicalMin + event.attackMagicalMinBonus;
 			
 			if(config.wine_me){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
@@ -358,37 +334,38 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3))
 			piercingPhysical = piercingPhysical + aura_pierce[config.aura_pierce]
 			piercingMagical = piercingMagical + aura_pierce[config.aura_pierce]
 			
+			let tankShred = 0;
 			switch(config.tank){
 				case "warrior":
-					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.25 : 0)) * aura_pres[config.aura_pres]
+					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.25 : 0)) * aura_pres[config.aura_pres];
 					break;
 				case "lancer":
-					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.05 : 0)) * aura_pres[config.aura_pres]
+					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.05 : 0)) * aura_pres[config.aura_pres];
 					break;
 				case "brawler":
-					tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp]
+					tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
 					break;
 			}
-			healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres]
+			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
 			
-			piercingPhysicalMultiplier = Math.min( piercingPhysical / (10000 + piercingPhysical), 0.8 )
-			piercingMagicalMultiplier = Math.min( piercingMagical / (10000 + piercingMagical), 0.8 )
+			let piercingPhysicalMultiplier = Math.min( piercingPhysical / (10000 + piercingPhysical), 0.8 );
+			let piercingMagicalMultiplier = Math.min( piercingMagical / (10000 + piercingMagical), 0.8 );
 			
-			bossPhysicalDefense = config.boss_res * (1 - piercingPhysicalMultiplier) - tankShred - healerShred - defenseReductionPhysical - (config.death_sentence ? 5000 : 0) - (config.cruel_curse ? 9400 : 0)
-			bossMagicalDefense = config.boss_res * (1 - piercingMagicalMultiplier) - tankShred - healerShred - defenseReductionMagical - (config.death_sentence ? 5000 : 0) - (config.cruel_curse ? 9400 : 0)
+			let bossPhysicalDefense = config.boss_res * (1 - piercingPhysicalMultiplier) - tankShred - healerShred - defenseReductionPhysical - (config.death_sentence ? 5000 : 0) - (config.cruel_curse ? 9400 : 0);
+			let bossMagicalDefense = config.boss_res * (1 - piercingMagicalMultiplier) - tankShred - healerShred - defenseReductionMagical - (config.death_sentence ? 5000 : 0) - (config.cruel_curse ? 9400 : 0);
 			
-			bossPhysicalDefenseCapped = Math.max( bossPhysicalDefense, -33333)
-			bossMagicalDefenseCapped = Math.max( bossMagicalDefense, -33333)
+			let bossPhysicalDefenseCapped = Math.max( bossPhysicalDefense, -33333);
+			let bossMagicalDefenseCapped = Math.max( bossMagicalDefense, -33333);
 			
-			physicalModifier = attackPhysical * (classes[event.templateId % 100 - 1][1] === "phys" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossPhysicalDefenseCapped)
-			magicalModifier = attackMagical * (classes[event.templateId % 100 - 1][1] === "mag" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossMagicalDefenseCapped)
+			let physicalModifier = attackPhysical * (classes[event.templateId % 100 - 1][1] === "phys" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossPhysicalDefenseCapped);
+			let magicalModifier = attackMagical * (classes[event.templateId % 100 - 1][1] === "mag" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossMagicalDefenseCapped);
 			
-			totalModifier = (critPower * 0.9 + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier)
+			let totalModifier = (critPower * 0.9 + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier);
 			
-			powerFactor = (1 + event.powerBonus / (100 + event.power) )
+			let powerFactor = (1 + event.powerBonus / (100 + event.power) );
 			
 			totalModifier = totalModifier * (config.power ? powerFactor : 1)
-			shortModifier =  Math.round(totalModifier * 100) / 100
+			let shortModifier =  Math.round(totalModifier * 100) / 100;
 			
 			
 			if(config.shred){
