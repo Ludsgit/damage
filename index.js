@@ -31,7 +31,7 @@ module.exports = function Damage(mod){
 			case "boss":
 				if(!arg2){
 					mod.command.message(`
-Boss resist value: ${config.boss_res}`.clr(clr3));
+Boss resist value: ` + `${config.boss_res}`.clr(clr3));
 					return;
 				};
 				if(isNaN(arg2)){
@@ -39,24 +39,24 @@ Boss resist value: ${config.boss_res}`.clr(clr3));
 					return;
 				};
 				config.boss_res = parseFloat(arg2);
-				mod.command.message(`Boss resist set to ${config.boss_res}`.clr(clr1));
+				mod.command.message(`Boss resist set to ` + `${config.boss_res}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "tank":
 				if(!arg2){
 					mod.command.message(`
-Tank: ${config.tank}. Tank's ${(config.tank === "brawler" ? "amp" : "resist")}: ${config.tank_res}`.clr(clr3));
+Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? "amp" : "resist")}: ` + `${config.tank_res}`.clr(clr3));
 					return;
 				};
 				if(!isNaN(arg2)){
 					config.tank_res = parseFloat(arg2);
-					mod.command.message(`Tank physical ${(config.tank === "brawler" ? "amp" : "resist")} set to ${config.tank_res}`.clr(clr1));
+					mod.command.message(`Tank physical ${(config.tank === "brawler" ? "amp" : "resist")} set to ` + `${config.tank_res}`.clr(clr1));
 					mod.saveSettings();
 					break;
 				};
 				if(["warrior", "lancer", "brawler"].indexOf(arg2) !== -1){
 					config.tank = arg2;
-					mod.command.message(`Tank class set to ${config.tank}`.clr(clr1));
+					mod.command.message(`Tank class set to ` + `${config.tank}`.clr(clr1));
 					mod.saveSettings();
 					break;
 				};
@@ -75,23 +75,23 @@ Healer resist: ${config.healer_res}`.clr(clr3));
 					return;
 				};
 				config.healer_res = parseFloat(arg2);
-				mod.command.message(`Healer magical resist set to ${config.healer_res}`.clr(clr1));
+				mod.command.message(`Healer magical resist set to ` + `${config.healer_res}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "aura":
 				if(!arg2){
 					mod.command.message(`
-Amplification aura tier: ${config.aura_amp}
-Pierce aura tier: ${config.aura_pierce}
-Phys resist aura tier: ${config.aura_pres}
-Mag resist aura tier: ${config.aura_mres}`.clr(clr3));
+Amplification aura tier: ` + `${config.aura_amp}`.clr(clr3) + `
+Pierce aura tier: ` + `${config.aura_pierce}`.clr(clr3) + `
+Phys resist aura tier: ` + `${config.aura_pres}`.clr(clr3) + `
+Mag resist aura tier: ` + `${config.aura_mres}`.clr(clr3));
 					return;
 				};
 				switch(arg2){
 					case "amp":
 						if(!arg3){
 							mod.command.message(`
-Amplification aura tier: ${config.aura_amp}`.clr(clr3));
+Amplification aura tier: ` + `${config.aura_amp}`.clr(clr3));
 							return;
 						};
 						if(["0","1","2","3","4","5"].indexOf(arg3) === -1){
@@ -99,13 +99,13 @@ Amplification aura tier: ${config.aura_amp}`.clr(clr3));
 							return;
 						};
 						config.aura_amp = parseInt(arg3);
-						mod.command.message(`Amp aura set to tier ${config.aura_amp}`.clr(clr1));
+						mod.command.message(`Amp aura set to tier ` + `${config.aura_amp}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "pierce":
 						if(!arg3){
 							mod.command.message(`
-Pierce aura tier: ${config.aura_pierce}`.clr(clr3));
+Pierce aura tier: ` + `${config.aura_pierce}`.clr(clr3));
 							return;
 						};
 						if(["0","1","2","3","4","5"].indexOf(arg3) === -1){
@@ -113,13 +113,13 @@ Pierce aura tier: ${config.aura_pierce}`.clr(clr3));
 							return;
 						};
 						config.aura_pierce = parseInt(arg3);
-						mod.command.message(`Pierce aura set to tier ${config.aura_pierce}`.clr(clr1));
+						mod.command.message(`Pierce aura set to tier ` + `${config.aura_pierce}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "pres":
 						if(!arg3){
 							mod.command.message(`
-Phys resist aura tier: ${config.aura_pres}`.clr(clr3));
+Phys resist aura tier: ` + `${config.aura_pres}`.clr(clr3));
 							return;
 						};
 						if(["0","1","2","3","4","5"].indexOf(arg3) === -1){
@@ -127,13 +127,13 @@ Phys resist aura tier: ${config.aura_pres}`.clr(clr3));
 							return;
 						};
 						config.aura_pres = parseInt(arg3);
-						mod.command.message(`Phys res aura set to tier ${config.aura_pres}`.clr(clr1));
+						mod.command.message(`Phys res aura set to tier ` + `${config.aura_pres}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "mres":
 						if(!arg3){
 							mod.command.message(`
-Mag resist aura tier: ${config.aura_mres}`.clr(clr3));
+Mag resist aura tier: ` + `${config.aura_mres}`.clr(clr3));
 							return;
 						};
 						if(["0","1","2","3","4","5"].indexOf(arg3) === -1){
@@ -141,7 +141,7 @@ Mag resist aura tier: ${config.aura_mres}`.clr(clr3));
 							return;
 						};
 						config.aura_mres = parseInt(arg3);
-						mod.command.message(`Mag res aura set to tier ${config.aura_mres}`.clr(clr1));
+						mod.command.message(`Mag res aura set to tier ` + `${config.aura_mres}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					default:
@@ -151,26 +151,26 @@ Mag resist aura tier: ${config.aura_mres}`.clr(clr3));
 			case "wine":
 				if(!arg2){
 					mod.command.message(`
-Wine for self is ${(config.wine_me ? "enabled" : "disabled")}.
-Wine for tank is ${(config.wine_tank ? "enabled" : "disabled")}.
-Wine for healer is ${(config.wine_healer ? "enabled" : "disabled")}.`.clr(clr3));
+Wine for self is ` + `${(config.wine_me ? "enabled" : "disabled")}`.clr(clr3) + `
+Wine for tank is ` + `${(config.wine_tank ? "enabled" : "disabled")}`.clr(clr3) + `
+Wine for healer is ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(clr3));
 					return;
 				};
 				switch(arg2){
 					case "self":
 					case "me":
 						config.wine_me = !config.wine_me;
-						mod.command.message(`Wine on self ${(config.wine_me ? "enabled" : "disabled")}`.clr(clr1));
+						mod.command.message(`Wine on self ` + `${(config.wine_me ? "enabled" : "disabled")}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "tank":
 						config.wine_tank = !config.wine_tank;
-						mod.command.message(`Wine on tank ${(config.wine_tank ? "enabled" : "disabled")}`.clr(clr1));
+						mod.command.message(`Wine on tank ` + `${(config.wine_tank ? "enabled" : "disabled")}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "healer":
 						config.wine_healer = !config.wine_healer;
-						mod.command.message(`Wine on healer ${(config.wine_healer ? "enabled" : "disabled")}`.clr(clr1));
+						mod.command.message(`Wine on healer ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					default:
@@ -179,20 +179,20 @@ Wine for healer is ${(config.wine_healer ? "enabled" : "disabled")}.`.clr(clr3))
 				break;
 			case "curse":
 				config.cruel_curse = !config.cruel_curse;
-				mod.command.message(`Cruel curse ${(config.cruel_curse ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Cruel curse ` + `${(config.cruel_curse ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "sentence":
 				config.death_sentence = !config.death_sentence;
-				mod.command.message(`Death sentence ${(config.death_sentence ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Death sentence ` + `${(config.death_sentence ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "skill":
 				if(!arg2){
 					mod.command.message(`
-Skill main modifier: ${config.skill_main_mod}.
-Skill sec modifier: ${config.skill_sec_mod}.
-Skill crit rate: ${config.crit_rate}`.clr(clr3));
+Skill main modifier: ` + `${config.skill_main_mod}`.clr(clr3) + `
+Skill sec modifier: ` + `${config.skill_sec_mod}`.clr(clr3) + `
+Skill crit rate: ` + `${config.crit_rate}`.clr(clr3));
 					return;
 				};
 				if(!arg3){
@@ -206,12 +206,12 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3));
 				switch(arg2){
 					case "main":
 						config.skill_main_mod = parseFloat(arg3);
-						mod.command.message(`Skill main modifier set to ${config.skill_main_mod}`.clr(clr1));
+						mod.command.message(`Skill main modifier set to ` + `${config.skill_main_mod}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "sec":
 						config.skill_sec_mod = parseFloat(arg3);
-						mod.command.message(`Skill secondary modifier set to ${config.skill_sec_mod}`.clr(clr1));
+						mod.command.message(`Skill secondary modifier set to ` + `${config.skill_sec_mod}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "crit":
@@ -220,7 +220,7 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3));
 							return;
 						};
 						config.crit_rate = parseFloat(arg3);
-						mod.command.message(`Crit rate set to ${config.crit_rate}%`.clr(clr1));
+						mod.command.message(`Crit rate set to ` + `${config.crit_rate}%`.clr(clr1));
 						mod.saveSettings();
 						break;	
 					default:
@@ -229,13 +229,13 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3));
 				break;
 			case "shred":
 				config.shred = !config.shred;
-				mod.command.message(`Shred display ${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Shred display ` + `${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "inspect":
 				if(!arg2){
 					config.auto_inspect = !config.auto_inspect;
-					mod.command.message(`Automatic damage modifier calculation on inspection ${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
+					mod.command.message(`Automatic damage modifier calculation on inspection ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
 					mod.saveSettings();
 					return;
 				}
@@ -262,7 +262,7 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3));
 				break;
 			case "power":
 				config.power = !config.power;
-				mod.command.message(`Using power for damage modifier ${(config.power ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Using power for damage modifier ` + `${(config.power ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			default:
