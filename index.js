@@ -371,17 +371,17 @@ Skill crit rate: ${config.crit_rate}`.clr(clr3));
 			if(config.shred){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
 					mod.command.message(`
-${event.name}'s total modifier = ${shortModifier}
-Boss phys defense = ${Math.ceil(bossPhysicalDefenseCapped)} (${Math.ceil(bossPhysicalDefense)})`.clr(clr3));
+${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}
+`.clr(clr3) + `Boss phys defense = ` + `${Math.ceil(bossPhysicalDefenseCapped)} (${Math.ceil(bossPhysicalDefense)})`.clr(clr3));
 				};
 				if(classes[event.templateId % 100 - 1][1] === "mag"){
 					mod.command.message(`
-${event.name}'s total modifier = ${shortModifier}
-Boss mag defense = ${Math.ceil(bossMagicalDefenseCapped)} (${Math.ceil(bossMagicalDefense)})`.clr(clr3));
+${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}
+`.clr(clr3) + `Boss phys defense = ` + `${Math.ceil(bossMagicalDefenseCapped)} (${Math.ceil(bossMagicalDefense)})`.clr(clr3));
 				};
 			} else {
 				mod.command.message(`
-${event.name}'s total modifier = ${shortModifier}`.clr(clr3));
+${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3));
 			};
 			
 			requested = false;
