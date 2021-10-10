@@ -190,9 +190,9 @@ Wine for healer is ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(cl
 			case "skill":
 				if(!arg2){
 					mod.command.message(`
-Skill main modifier: ` + `${config.skill_main_mod}`.clr(clr3) + `
-Skill sec modifier: ` + `${config.skill_sec_mod}`.clr(clr3) + `
-Skill crit rate: ` + `${config.crit_rate}`.clr(clr3));
+Skill main modifier: ` + `${config.skill_main_mod}%`.clr(clr3) + `
+Skill sec modifier: ` + `${config.skill_sec_mod}%`.clr(clr3) + `
+Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					return;
 				};
 				if(!arg3){
@@ -206,12 +206,12 @@ Skill crit rate: ` + `${config.crit_rate}`.clr(clr3));
 				switch(arg2){
 					case "main":
 						config.skill_main_mod = parseFloat(arg3);
-						mod.command.message(`Skill main modifier set to ` + `${config.skill_main_mod}`.clr(clr1));
+						mod.command.message(`Skill main modifier set to ` + `${config.skill_main_mod}%`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "sec":
 						config.skill_sec_mod = parseFloat(arg3);
-						mod.command.message(`Skill secondary modifier set to ` + `${config.skill_sec_mod}`.clr(clr1));
+						mod.command.message(`Skill secondary modifier set to ` + `${config.skill_sec_mod}%`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "crit":
