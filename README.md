@@ -37,6 +37,6 @@ where typeDef = max(-33333, baseResist * pierceMultiplier - shred - resistIgnore
 
 where pierceMultiplier = max(1 - (pierce / (pierce + 10000)), 0.2)
 
-and total modifier is multipied by a factor (1 + bonusPower / (basePower + 100)) if power is enabled for calculation
+and total modifier is multipied by a factor (1 + bonusPower / (basePower + 100)) * (3 + 0.03 * basePower) if power is enabled for calculation
 
 (formulas taken from tera -theorycraft discord)
