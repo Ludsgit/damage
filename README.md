@@ -12,7 +12,7 @@ All commands start with /8 damage:
 - - (class): changes the class of the tank. Possible classes are "warrior", "brawler" and "lancer"
 - healer: displays current healer's mag resist value
 - - (value): changes healer resistance to value
-- wine: displays current wine configuration for sel, tank and healer
+- wine: displays current wine configuration for self, tank and healer
 - - (user): toggles on/off wine for user. Possible users are "me", "self", "tank", "healer"
 - aura: displays the current tiers of all 4 auras
 - - (type): display current tier of type aura
@@ -26,3 +26,17 @@ All commands start with /8 damage:
 - inspect: toggles on/off display of damage modifier when inspecting someone
 - - (name) (server): prints damage modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
 - power: toggles on/off using power for damage modifier calculation
+
+### Math
+
+Total modifier calculated according to the following formulas:
+
+totalModifier = normalCritPow * 0.9 + physCritPower * physAmp * skillPhysFactor / (100000 + physDef) + magCritPower * magAmp * skillMagFactor / (100000 + magDef)
+
+where typeDef = max(-33333, baseResist * pierceMultiplier - shred - resistIgnore)
+
+where pierceMultiplier = max(1 - (pierce / (pierce + 10000)), 0.2)
+
+and total modifier is multipied by a factor (1 + bonusPower / (basePower + 100)) if power is enabled for calculation
+
+(formulas taken from tera -theorycraft discord)
