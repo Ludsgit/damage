@@ -1,9 +1,9 @@
 {
-    "disableAutoUpdate": true,
+    "disableAutoUpdate": false,
     "name": "damage",
     "author": "Ludsgit",
     "description": "Tells you your/someone else's damage modifier",
-    "version": "1",
+    "version": "2",
     "options": {
         "niceName": "damage",
         "reloadable": true,
@@ -11,5 +11,5 @@
         "settingsVersion": 1,
         "settingsMigrator": "settings_migrator.js"
     },
-    "servers": ["https://raw.githubusercontent.com/Ludsgit/damage/main/"]
+    "servers": ["https://raw.githubusercontent.com/Ludsgit/damage/beta/"]
 }
