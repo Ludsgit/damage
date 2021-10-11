@@ -13,6 +13,7 @@ const servers = {"Yurian": 28, "Mystel": 38, "Seren": 29, "Shakan": 40, "Shen": 
 const classes = [["Warrior", "phys"], ["Lancer", "phys"], ["Slayer", "phys"], ["Berserker", "phys"], ["Sorcerer", "mag"], ["Archer", "phys"], ["Priest", "mag"], ["Mystic", "mag"], ["Reaper", "mag"], ["Gunner", "mag"], ["Brawler", "phys"], ["Ninja", "mag"], ["Valkyrie", "phys"]];
 
 const jewels = [90170, 90171, 90172, 90173, 90174, 90175, 90176, 90177];
+const circlets = [90176, 90177];
 const new_p_amp = {'5200001': 1365, '5200002': 1624, '5200003': 1931, '5200004': 2297, '5200005': 2730};
 const new_p_cp = {'5200011': 0.018, '5200012': 0.021, '5200013': 0.025, '5200014': 0.029, '5200015': 0.035};
 const new_p_res = {'5200021': 0.018, '5200022': 0.021, '5200023': 0.025, '5200024': 0.029, '5200025': 0.035};
@@ -604,10 +605,10 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 				jewel1.mignore = rolls1.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0)
 				jewel1.mpierce = rolls1.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0)
 				jewel1.mamp = rolls1.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0)
-				if(classes[mod.game.me.templateId % 100 - 1][1] === "phys"){
+				if(classes[mod.game.me.templateId % 100 - 1][1] === "phys" && !circlets.includes(item.id)){
 					jewel1.pcp = jewel.pcp + 0.015;
 					jewel1.pamp = jewel.pamp + 983;
-				} else if(classes[mod.game.me.templateId % 100 - 1][1] === "mag"){
+				} else if(classes[mod.game.me.templateId % 100 - 1][1] === "mag" && !circlets.includes(item.id)){
 					jewel1.mcp = jewel.mcp + 0.015;
 					jewel1.mamp = jewel.mamp + 983;
 				};
