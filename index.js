@@ -374,32 +374,32 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 					return;
 				};
 				if(!arg3){
-					mod.command.message("Missing stat value".clr(clr2)));
+					mod.command.message("Missing stat value".clr(clr2));
 					return;
 				} else if(isNaN(arg3)){
-					mod.command.message("Stat value must be a number".clr(clr2)));
+					mod.command.message("Stat value must be a number".clr(clr2));
 					return;
 				};
 				switch(arg2){
 					case "cp":
 						bonusCritPowerPhysical = bonusCritPowerPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusCritPowerMagical = bonusCritPowerMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr1));
 						break;
 					case "pierce":
 						bonusPiercingPhysical = bonusPiercingPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusPiercingMagical = bonusPiercingMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr1));
 						break;
 					case "ignore":
 						bonusDefenseIgnorePhysical = bonusDefenseIgnorePhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusDefenseIgnoreMagical = bonusDefenseIgnoreMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr1));
 						break;
 					case "amp":
 						bonusAttackPhysical = bonusAttackPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusAttackMagical = bonusAttackMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr1));
 						break;
 					case "power":
 						if(!config.power){
@@ -409,7 +409,7 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 						mod.command.message(`Bonus power set to: ` + `${bonusPower}`);
 						break;
 					default:
-						mod.command.message("Stat not found. Accepted arguments are cp, pierce, ignore, amp".clr(clr2)));
+						mod.command.message("Stat not found. Accepted arguments are cp, pierce, ignore, amp".clr(clr2));
 				};
 				if(!hold){
 					requested = true;
@@ -433,7 +433,7 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 		if(requested || config.auto_inspect){
 			
 			if(hold && event.gameId !== mod.game.me.gameId){
-				mod.command.message(`Adding stats for other players is not currently supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2)));
+				mod.command.message(`Adding stats for other players is not currently supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2));
 			};
 			
 			if(config.wine_me){
