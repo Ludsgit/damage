@@ -29,7 +29,7 @@ All commands start with /8 damage:
 - equip (jewel.): calculates your damage modifier after equipping a linked glimmering ring/earring/circlet/necklace. Power calculation currently not supported with this function
 - - - rollback/1: calculates your damage modifier after equipping the previous set of rolls of a linked glimmering ring/earring/circlet/necklace. Power calculation currently not supported with this function
 - add: displays whether stats holding is enabled, and if so displays the currently held stats.
-- add (stat) (value): calculates damage modifier after adding value to stat. Class passives will be applied to the added stat(s). Currently not supported when inspecting other players; damage modifier will be wrong if you inspect another type of class than your own
+- add (stat) (value): calculates damage modifier after adding value to stat. Possible stats are "cp", "pierce", "ignore", "amp", "power". Class passives will be applied to the added stat(s). Currently not supported when inspecting other players; damage modifier will be wrong if you inspect another type of class than your own
 - add hold: toggles on/off holding the stats added for the previous command. If hold is enabled, modifier calculation has to be manually requested.
 
 ### Math

@@ -41,6 +41,7 @@ module.exports = function Damage(mod){
 	let bonusPiercingMagical = 0;
 	let bonusAttackPhysical = 0;
 	let bonusAttackMagical = 0;
+	let bonusPower = 0;
 	
 	mod.game.on("leave_game", () => {
 		hold = false;
@@ -52,6 +53,7 @@ module.exports = function Damage(mod){
 		bonusPiercingMagical = 0;
 		bonusAttackPhysical = 0;
 		bonusAttackMagical = 0;
+		bonusPower = 0;
 	});
 	
 	
@@ -348,7 +350,10 @@ Stats holding: ` + `enabled`.clr(clr3) + `
 Bonus ${classes[event.templateId % 100 - 1][1]} cp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr3) + `
 Bonus ${classes[event.templateId % 100 - 1][1]} pierce: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr3) + `
 Bonus ${classes[event.templateId % 100 - 1][1]} ignore: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr3) + `
-Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr3))
+Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr3));
+						if(config.power){
+							mod.command.message(`Bonus power: ` + `${bonusPower}`.clr(clr3));
+						};
 					};
 					return;
 				};
@@ -364,6 +369,7 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 						bonusPiercingMagical = 0;
 						bonusAttackPhysical = 0;
 						bonusAttackMagical = 0;
+						bonusPower = 0;
 					};
 					return;
 				};
@@ -378,22 +384,29 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 					case "cp":
 						bonusCritPowerPhysical = bonusCritPowerPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusCritPowerMagical = bonusCritPowerMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr1)));
 						break;
 					case "pierce":
 						bonusPiercingPhysical = bonusPiercingPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusPiercingMagical = bonusPiercingMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr1)));
 						break;
 					case "ignore":
 						bonusDefenseIgnorePhysical = bonusDefenseIgnorePhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusDefenseIgnoreMagical = bonusDefenseIgnoreMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr1)));
 						break;
 					case "amp":
 						bonusAttackPhysical = bonusAttackPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusAttackMagical = bonusAttackMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr1)));
+						break;
+					case "power":
+						if(!config.power){
+							mod.command.message("Using power for damage calculation is disabled. Please enable it first".clr(clr2));
+						};
+						bonusPower = bonusPower + arg3;
+						mod.command.message(`Bonus power set to: ` + `${bonusPower}`);
 						break;
 					default:
 						mod.command.message("Stat not found. Accepted arguments are cp, pierce, ignore, amp".clr(clr2)));
@@ -501,7 +514,7 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 			
 			let totalModifier = (critPower * 0.9 + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier);
 			
-			let powerFactor = (1 + event.powerBonus / (100 + event.power)) * (3 + 0.03 * event.power);
+			let powerFactor = (1 + (event.powerBonus + bonusPower) / (100 + event.power)) * (3 + 0.03 * event.power);
 			
 			totalModifier = totalModifier * (config.power ? powerFactor : 1);
 			let shortModifier =  Math.round(totalModifier * 100) / 100;
@@ -534,6 +547,7 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 				bonusPiercingMagical = 0;
 				bonusAttackPhysical = 0;
 				bonusAttackMagical = 0;
+				bonusPower = 0;
 			} else if(config.wine_me){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
 					bonusCritPowerPhysical = bonusCritPowerPhysical - 0.05;
