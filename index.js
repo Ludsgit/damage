@@ -347,10 +347,10 @@ Stats holding: ` + `disabled`.clr(clr3))
 					} else {
 						mod.command.message(`
 Stats holding: ` + `enabled`.clr(clr3) + `
-Bonus ${classes[event.templateId % 100 - 1][1]} cp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr3) + `
-Bonus ${classes[event.templateId % 100 - 1][1]} pierce: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr3) + `
-Bonus ${classes[event.templateId % 100 - 1][1]} ignore: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr3) + `
-Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr3));
+Bonus ${classes[mod.game.me.templateId % 100 - 1][1]} cp: ` + `${(classes[mod.game.me.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr3) + `
+Bonus ${classes[mod.game.me.templateId % 100 - 1][1]} pierce: ` + `${(classes[mod.game.me.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr3) + `
+Bonus ${classes[mod.game.me.templateId % 100 - 1][1]} ignore: ` + `${(classes[mod.game.me.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr3) + `
+Bonus ${classes[mod.game.me.templateId % 100 - 1][1]} amp: ` + `${(classes[mod.game.me.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr3));
 						if(config.power){
 							mod.command.message(`Bonus power: ` + `${bonusPower}`.clr(clr3));
 						};
