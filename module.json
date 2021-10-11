@@ -1,5 +1,5 @@
 {
-    "disableAutoUpdate": false,
+    "disableAutoUpdate": true,
     "name": "damage",
     "author": "Ludsgit",
     "description": "Tells you your/someone else's damage modifier",

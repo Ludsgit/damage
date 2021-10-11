@@ -12,11 +12,48 @@ const aura_mres = [1, 1.02, 1.025, 1.03, 1.035, 1.04];
 const servers = {"Yurian": 28, "Mystel": 38, "Seren": 29, "Shakan": 40, "Shen": 39, "Velik": 43, "Kaia": 42};
 const classes = [["Warrior", "phys"], ["Lancer", "phys"], ["Slayer", "phys"], ["Berserker", "phys"], ["Sorcerer", "mag"], ["Archer", "phys"], ["Priest", "mag"], ["Mystic", "mag"], ["Reaper", "mag"], ["Gunner", "mag"], ["Brawler", "phys"], ["Ninja", "mag"], ["Valkyrie", "phys"]];
 
+const jewels = [90171, 90173, 90175, 90177];
+const new_p_amp = {'5200001': 1365, '5200002': 1624, '5200003': 1931, '5200004': 2297, '5200005': 2730};
+const new_p_cp = {'5200011': 0.018, '5200012': 0.021, '5200013': 0.025, '5200014': 0.029, '5200015': 0.035};
+const new_p_res = {'5200021': 0.018, '5200022': 0.021, '5200023': 0.025, '5200024': 0.029, '5200025': 0.035};
+const new_p_pie = {'5200031': 274, '5200032': 325, '5200033': 387, '5200034': 460, '5200035': 547};
+const new_p_ign = {'5200041': 547, '5200042': 651, '5200043': 774, '5200044': 920, '5200045': 1094};
+const new_m_amp = {'5200006': 1365, '5200007': 1624, '5200008': 1931, '5200009': 2297, '5200010': 2730};
+const new_m_cp = {'5200016': 0.018, '5200017': 0.021, '5200018': 0.025, '5200019': 0.029, '5200020': 0.035};
+const new_m_res = {'5200026': 0.018, '5200027': 0.021, '5200028': 0.025, '5200029': 0.029, '5200030': 0.035};
+const new_m_pie = {'5200036': 274, '5200037': 325, '5200038': 387, '5200039': 460, '5200040': 547};
+const new_m_ign = {'5200046': 547, '5200047': 651, '5200048': 774, '5200049': 920, '5200050': 1094};
 
 module.exports = function Damage(mod){
 	
+	mod.game.initialize("inventory");
+	
+	let inv = mod.game.inventory;
 	let config = mod.settings;
+	
 	let requested = false;
+	let hold = false;
+	let bonusCritPowerPhysical = 0;
+	let bonusCritPowerMagical = 0;
+	let bonusDefenseIgnorePhysical = 0;
+	let bonusDefenseIgnoreMagical = 0;
+	let bonusPiercingPhysical = 0;
+	let bonusPiercingMagical = 0;
+	let bonusAttackPhysical = 0;
+	let bonusAttackMagical = 0;
+	
+	mod.game.on("leave_game", () => {
+		hold = false;
+		bonusCritPowerPhysical = 0;
+		bonusCritPowerMagical = 0;
+		bonusDefenseIgnorePhysical = 0;
+		bonusDefenseIgnoreMagical = 0;
+		bonusPiercingPhysical = 0;
+		bonusPiercingMagical = 0;
+		bonusAttackPhysical = 0;
+		bonusAttackMagical = 0;
+	});
+	
 	
 	mod.command.add('damage', (arg1,arg2,arg3) => {
 		if(!arg1){
@@ -265,69 +302,171 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				mod.command.message(`Using power for damage modifier ` + `${(config.power ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
+			case "equip":
+				if(!arg2){
+					mod.command.message("Missing link of a glimmering ring/earring/neclace/circlet".clr(clr2));
+					return;
+				};
+				let bonus = get_jewel_per_chat_link(arg2);
+				if(!bonus){
+					mod.command.message("Link a glimmering ring/earring/neclace/circlet to use this funtion".clr(clr2));
+					return;
+				};
+				arg3 = arg3 ? arg3 : "0";
+				switch(arg3){
+					case "0":
+							update_bonus(bonus[0]);
+							requested = true;
+							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+								serverId: mod.game.me.serverId,
+								zoom: false,
+								name: mod.game.me.name				
+							});
+						break;
+					case "1":
+					case "rollback":
+							update_bonus(bonus[1]);
+							requested = true;
+							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+								serverId: mod.game.me.serverId,
+								zoom: false,
+								name: mod.game.me.name				
+							});
+						break;
+					default:
+						mod.command.message("Use 1 or rollback as argument after link to view previous rolls".clr(clr2));
+				}
+				break;
+			case "add":
+				if(!arg2){
+					if(!hold){
+						mod.command.message(`
+Stats holding: ` + `disabled`.clr(clr3))
+					} else {
+						mod.command.message(`
+Stats holding: ` + `enabled`.clr(clr3) + `
+Bonus ${classes[event.templateId % 100 - 1][1]} cp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr3) + `
+Bonus ${classes[event.templateId % 100 - 1][1]} pierce: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr3) + `
+Bonus ${classes[event.templateId % 100 - 1][1]} ignore: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr3) + `
+Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr3))
+					};
+					return;
+				};
+				if(arg2 === "hold"){
+					hold = !hold;
+					mod.command.message("Holding stats : " + `${hold}`.clr(clr1));
+					if(!hold){
+						bonusCritPowerPhysical = 0;
+						bonusCritPowerMagical = 0;
+						bonusDefenseIgnorePhysical = 0;
+						bonusDefenseIgnoreMagical = 0;
+						bonusPiercingPhysical = 0;
+						bonusPiercingMagical = 0;
+						bonusAttackPhysical = 0;
+						bonusAttackMagical = 0;
+					};
+					return;
+				};
+				if(!arg3){
+					mod.command.message("Missing stat value".clr(clr2)));
+					return;
+				} else if(isNaN(arg3)){
+					mod.command.message("Stat value must be a number".clr(clr2)));
+					return;
+				};
+				switch(arg2){
+					case "cp":
+						bonusCritPowerPhysical = bonusCritPowerPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
+						bonusCritPowerMagical = bonusCritPowerMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
+						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						break;
+					case "pierce":
+						bonusPiercingPhysical = bonusPiercingPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
+						bonusPiercingMagical = bonusPiercingMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
+						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						break;
+					case "ignore":
+						bonusDefenseIgnorePhysical = bonusDefenseIgnorePhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
+						bonusDefenseIgnoreMagical = bonusDefenseIgnoreMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
+						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						break;
+					case "amp":
+						bonusAttackPhysical = bonusAttackPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
+						bonusAttackMagical = bonusAttackMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
+						mod.command.message(`${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${arg3}`.clr(clr1)));
+						break;
+					default:
+						mod.command.message("Stat not found. Accepted arguments are cp, pierce, ignore, amp".clr(clr2)));
+				};
+				if(!hold){
+					requested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+						serverId: mod.game.me.serverId,
+						zoom: false,
+						name: mod.game.me.name				
+					});
+				};
+				break;
 			default:
 				if(arg2){
-					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, shred, inspect and power".clr(clr2));
+					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, shred, inspect, power and equip".clr(clr2));
 					return;
 				};
 		};
 	});
 	
+	
 	mod.hook("S_USER_PAPERDOLL_INFO", 15, (event) => {
 		if(requested || config.auto_inspect){
 			
-			let critPower = event.critPower + event.critPowerBonus;
-			let critPowerPhysical = event.critPowerPhysical + event.critPowerPhysicalBonus;
-			let critPowerMagical = event.critPowerMagical + event.critPowerMagicalBonus;
-			let defenseIgnorePhysical = event.defenseReductionPhysical+ event.defenseReductionPhysicalBonus;
-			let defenseIgnoreMagical = event.defenseReductionMagical + event.defenseReductionMagicalBonus;
-			let piercingPhysical = event.piercingPhysical + event.piercingPhysicalBonus;
-			let piercingMagical = event.piercingMagical + event.piercingMagicalBonus;
-			let attackPhysical = event.attackPhysicalMin + event.attackPhysicalMinBonus;
-			let attackMagical = event.attackMagicalMin + event.attackMagicalMinBonus;
+			if(hold && event.gameId !== mod.game.me.gameId){
+				mod.command.message(`Adding stats for other players is not currently supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2)));
+			};
 			
 			if(config.wine_me){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
-					critPowerPhysical = critPowerPhysical + 0.05;
-					attackPhysical = attackPhysical + 8000;
+					bonusCritPowerPhysical = bonusCritPowerPhysical + 0.05;
+					bonusAttackPhysical = bonusAttackPhysical + 8000;
 				} else if (classes[event.templateId % 100 - 1][1] === "mag"){
-					critPowerMagical = critPowerMagical + 0.05;
-					attackMagical = attackMagical + 8000;
+					bonusCritPowerMagical = bonusCritPowerMagical + 0.05;
+					bonusAttackMagical = bonusAttackMagical + 8000;
 				};
-				switch(classes[event.templateId % 100 - 1][0]){
-					case "Warrior":
-						defenseIgnorePhysical = defenseIgnorePhysical + 0.05 * 15000;
-						break;
-					case "Slayer":
-						defenseIgnorePhysical = defenseIgnorePhysical + 8000 * 0.04;
-						defenseIgnorePhysical = defenseIgnorePhysical + 0.02 * attackPhysical;
-						break;
-					case "Archer":
-						piercingPhysical = piercingPhysical + 0.05 * (mod.majorPatchVersion >= 111 ? 2500 : 5000);
-						break;
-					case "Reaper":
-						defenseIgnoreMagical = defenseIgnoreMagical + 8000 * 0.04;
-						defenseIgnoreMagical = defenseIgnoreMagical + 0.02 * attackMagical;
-						break;
-					case "Ninja":
-						piercingMagical = piercingMagical + 8000 * 0.01;
-						break;
-					case "Brawler":
-						attackPhysical = attackPhysical + 8000 * 0.05;
-						break;
-					case "Gunner":
-						mod.command.message("Gunner passive is currently not supported");
-						break;
-					case "Valkyrie":
-						mod.command.message("Valkyrie passive is currently not supported");
-						break;
-					case "Lancer":
-						mod.command.message("Lancer passive is currently not supported");
-						break;
-					default:
-						mod.command.message(`${classes[event.templateId % 100 - 1][0]} has no damage passives affected by wine`);
-				}
-			}
+			};
+			
+			let critPower = event.critPower + event.critPowerBonus;
+			let critPowerPhysical = event.critPowerPhysical + event.critPowerPhysicalBonus + bonusCritPowerPhysical;
+			let critPowerMagical = event.critPowerMagical + event.critPowerMagicalBonus + bonusCritPowerMagical;
+			let defenseIgnorePhysical = event.defenseReductionPhysical+ event.defenseReductionPhysicalBonus + bonusDefenseIgnorePhysical;
+			let defenseIgnoreMagical = event.defenseReductionMagical + event.defenseReductionMagicalBonus + bonusDefenseIgnoreMagical;
+			let piercingPhysical = event.piercingPhysical + event.piercingPhysicalBonus + bonusPiercingPhysical;
+			let piercingMagical = event.piercingMagical + event.piercingMagicalBonus + bonusPiercingMagical;
+			let attackPhysical = event.attackPhysicalMin + event.attackPhysicalMinBonus + bonusAttackPhysical;
+			let attackMagical = event.attackMagicalMin + event.attackMagicalMinBonus + bonusAttackMagical;
+			
+			switch(classes[event.templateId % 100 - 1][0]){
+				case "Warrior":
+					defenseIgnorePhysical = defenseIgnorePhysical + bonusCritPowerPhysical * 15000;
+					break;
+				case "Slayer":
+					defenseIgnorePhysical = defenseIgnorePhysical + bonusAttackPhysical * 0.04;
+					defenseIgnorePhysical = defenseIgnorePhysical + 0.02 * attackPhysical;
+					break;
+				case "Archer":
+					piercingPhysical = piercingPhysical + bonusCritPowerPhysical * (mod.majorPatchVersion >= 111 ? 2500 : 5000);
+					break;
+				case "Reaper":
+					defenseIgnoreMagical = defenseIgnoreMagical + bonusAttackMagical * 0.04;
+					defenseIgnoreMagical = defenseIgnoreMagical + 0.02 * attackMagical;
+					break;
+				case "Ninja":
+					piercingMagical = piercingMagical + bonusAttackMagical * 0.01;
+					break;
+				case "Brawler":
+					attackPhysical = attackPhysical + bonusAttackPhysical * 0.05;
+					break;
+				default:
+					mod.command.message(`${classes[event.templateId % 100 - 1][0]} passive is currently not supported`);
+			};
 			
 			attackPhysical = attackPhysical * aura_amp[config.aura_amp];
 			attackMagical = attackMagical * aura_amp[config.aura_amp];
@@ -385,9 +524,75 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 			};
 			
 			requested = false;
+			
+			if(!hold){
+				bonusCritPowerPhysical = 0;
+				bonusCritPowerMagical = 0;
+				bonusDefenseIgnorePhysical = 0;
+				bonusDefenseIgnoreMagical = 0;
+				bonusPiercingPhysical = 0;
+				bonusPiercingMagical = 0;
+				bonusAttackPhysical = 0;
+				bonusAttackMagical = 0;
+			} else if(config.wine_me){
+				if(classes[event.templateId % 100 - 1][1] === "phys"){
+					bonusCritPowerPhysical = bonusCritPowerPhysical - 0.05;
+					bonusAttackPhysical = bonusAttackPhysical - 8000;
+				} else if (classes[event.templateId % 100 - 1][1] === "mag"){
+					bonusCritPowerMagical = bonusCritPowerMagical - 0.05;
+					bonusAttackMagical = bonusAttackMagical - 8000;
+				};
+			};
+			
 			return (event.gameId === mod.game.me.gameId ? false : undefined);
 		};
 	});
 	
 	
+	function get_jewel_per_chat_link(chat_link) {
+        const expression = /@(\d*)@/;
+        const item_dbid = chat_link.match(expression);
+        if (item_dbid) {
+            let id =  Number.parseInt(item_dbid[1]);
+			let item = inv.dbids[id];
+			if(!jewels.includes(item.id)){
+				return false;
+			} else {
+				let rolls = item.passivitySets[0].passivities;
+				let jewel = {};
+				jewel.pcp = rolls.reduce( (prev, cur) => Object.keys(new_p_cp).includes(cur.toString()) ? prev + new_p_cp[cur.toString()] : prev, 0);
+				jewel.pignore = rolls.reduce( (prev, cur) => Object.keys(new_p_ign).includes(cur.toString()) ? prev + new_p_ign[cur.toString()] : prev, 0)
+				jewel.ppierce = rolls.reduce( (prev, cur) => Object.keys(new_p_pie).includes(cur.toString()) ? prev + new_p_pie[cur.toString()] : prev, 0)
+				jewel.pamp = rolls.reduce( (prev, cur) => Object.keys(new_p_amp).includes(cur.toString()) ? prev + new_p_amp[cur.toString()] : prev, 0)
+				jewel.mcp = rolls.reduce( (prev, cur) => Object.keys(new_m_cp).includes(cur.toString()) ? prev + new_m_cp[cur.toString()] : prev, 0)
+				jewel.mignore = rolls.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0)
+				jewel.mpierce = rolls.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0)
+				jewel.mamp = rolls.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0)
+				let rolls1 = item.passivitySets[1].passivities;
+				let jewel1 = {};
+				jewel1.pcp = rolls1.reduce( (prev, cur) => Object.keys(new_p_cp).includes(cur.toString()) ? prev + new_p_cp[cur.toString()] : prev, 0);
+				jewel1.pignore = rolls1.reduce( (prev, cur) => Object.keys(new_p_ign).includes(cur.toString()) ? prev + new_p_ign[cur.toString()] : prev, 0)
+				jewel1.ppierce = rolls1.reduce( (prev, cur) => Object.keys(new_p_pie).includes(cur.toString()) ? prev + new_p_pie[cur.toString()] : prev, 0)
+				jewel1.pamp = rolls1.reduce( (prev, cur) => Object.keys(new_p_amp).includes(cur.toString()) ? prev + new_p_amp[cur.toString()] : prev, 0)
+				jewel1.mcp = rolls1.reduce( (prev, cur) => Object.keys(new_m_cp).includes(cur.toString()) ? prev + new_m_cp[cur.toString()] : prev, 0)
+				jewel1.mignore = rolls1.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0)
+				jewel1.mpierce = rolls1.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0)
+				jewel1.mamp = rolls1.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0)
+				return [jewel, jewel1];
+			};
+		} else {
+			return false;
+		};
+    };
+	
+	function update_bonus(jewel){
+		bonusCritPowerPhysical = jewel.pcp;
+		bonusCritPowerMagical = jewel.mcp;
+		bonusDefenseIgnorePhysical = jewel.pignore;
+		bonusDefenseIgnoreMagical = jewel.mignore;
+		bonusPiercingPhysical = jewel.ppierce;
+		bonusPiercingMagical = jewel.mpierce;
+		bonusAttackPhysical = jewel.pamp;
+		bonusAttackMagical = jewel.mamp;
+	};
 };

@@ -26,6 +26,11 @@ All commands start with /8 damage:
 - inspect: toggles on/off display of damage modifier when inspecting someone
 - - (name) (server): prints damage modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
 - power: toggles on/off using power for damage modifier calculation
+- equip (jewel.): calculates your damage modifier after equipping a linked glimmering ring/earring/circlet/necklace. Power calculation currently not supported with this function
+- - - rollback/1: calculates your damage modifier after equipping the previous set of rolls of a linked glimmering ring/earring/circlet/necklace. Power calculation currently not supported with this function
+- add: displays whether stats holding is enabled, and if so displays the currently held stats.
+- add (stat) (value): calculates damage modifier after adding value to stat. Class passives will be applied to the added stat(s). Currently not supported when inspecting other players; damage modifier will be wrong if you inspect another type of class than your own
+- add hold: toggles on/off holding the stats added for the previous command. If hold is enabled, modifier calculation has to be manually requested.
 
 ### Math
 
