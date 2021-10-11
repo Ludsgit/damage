@@ -384,29 +384,34 @@ Bonus ${classes[event.templateId % 100 - 1][1]} amp: ` + `${(classes[event.templ
 					case "cp":
 						bonusCritPowerPhysical = bonusCritPowerPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusCritPowerMagical = bonusCritPowerMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr1));
+						mod.command.message(`
+Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusCritPowerPhysical : bonusCritPowerMagical)}`.clr(clr1));
 						break;
 					case "pierce":
 						bonusPiercingPhysical = bonusPiercingPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusPiercingMagical = bonusPiercingMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr1));
+						mod.command.message(`
+Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusPiercingPhysical : bonusPiercingMagical)}`.clr(clr1));
 						break;
 					case "ignore":
 						bonusDefenseIgnorePhysical = bonusDefenseIgnorePhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusDefenseIgnoreMagical = bonusDefenseIgnoreMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr1));
+						mod.command.message(`
+Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusDefenseIgnorePhysical : bonusDefenseIgnoreMagical)}`.clr(clr1));
 						break;
 					case "amp":
 						bonusAttackPhysical = bonusAttackPhysical + (classes[event.templateId % 100 - 1][1] === "phys" ? arg3 : 0);
 						bonusAttackMagical = bonusAttackMagical + (classes[event.templateId % 100 - 1][1] === "mag" ? arg3 : 0);
-						mod.command.message(`Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr1));
+						mod.command.message(`
+Bonus ${(classes[event.templateId % 100 - 1][1]} ${arg2} set to: ` + `${(classes[event.templateId % 100 - 1][1] === "phys" ? bonusAttackPhysical : bonusAttackMagical)}`.clr(clr1));
 						break;
 					case "power":
 						if(!config.power){
 							mod.command.message("Using power for damage calculation is disabled. Please enable it first".clr(clr2));
 						};
 						bonusPower = bonusPower + arg3;
-						mod.command.message(`Bonus power set to: ` + `${bonusPower}`);
+						mod.command.message(`
+Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 						break;
 					default:
 						mod.command.message("Stat not found. Accepted arguments are cp, pierce, ignore, amp".clr(clr2));
