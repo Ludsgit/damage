@@ -25,6 +25,12 @@ const new_m_res = {'5200026': 0.018, '5200027': 0.021, '5200028': 0.025, '520002
 const new_m_pie = {'5200036': 274, '5200037': 325, '5200038': 387, '5200039': 460, '5200040': 547};
 const new_m_ign = {'5200046': 547, '5200047': 651, '5200048': 774, '5200049': 920, '5200050': 1094};
 
+const fearless = [5010471, 5010473, 5010479, 5010480, 5010483, 5010484];
+const wise = [5010475, 5010477, 5010481, 5010482, 5010485, 5010486];
+const powerEtch = {"4010280": 1,  "4010283": 2, "4010286": 2, "4010289": 2, "4010292": 2, "4010295": 3, "2010298": 3};
+const powerCrystal = 8940;
+const powerJewels = {"90170": 45, "90171": 45, "90172": 32, "90173": 32, "90174": 42, "90175": 42, "90176": 11, "90177": 11};
+
 module.exports = function Damage(mod){
 	
 	mod.game.initialize("inventory");
@@ -56,7 +62,6 @@ module.exports = function Damage(mod){
 		bonusAttackMagical = 0;
 		bonusPower = 0;
 	});
-	
 	
 	mod.command.add('damage', (arg1,arg2,arg3) => {
 		if(!arg1){
@@ -310,14 +315,14 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					mod.command.message("Missing link of a glimmering ring/earring/neclace/circlet".clr(clr2));
 					return;
 				};
-				let bonus = get_jewel_per_chat_link(arg2);
-				if(!bonus){
-					mod.command.message("Link a glimmering ring/earring/neclace/circlet to use this funtion".clr(clr2));
-					return;
-				};
-				arg3 = arg3 ? arg3 : "0";
-				switch(arg3){
-					case "0":
+				get_jewel_per_chat_link(arg2).then( (bonus) => {
+					if(!bonus){
+						mod.command.message("Link a glimmering ring/earring/neclace/circlet to use this funtion".clr(clr2));
+						return;
+					};
+					arg3 = arg3 ? arg3 : "0";
+					switch(arg3){
+						case "0":
 							update_bonus(bonus[0]);
 							requested = true;
 							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
@@ -325,9 +330,9 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 								zoom: false,
 								name: mod.game.me.name				
 							});
-						break;
-					case "1":
-					case "rollback":
+							break;
+						case "1":
+						case "rollback":
 							update_bonus(bonus[1]);
 							requested = true;
 							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
@@ -335,10 +340,11 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 								zoom: false,
 								name: mod.game.me.name				
 							});
-						break;
-					default:
-						mod.command.message("Use 1 or rollback as argument after link to view previous rolls".clr(clr2));
-				}
+							break;
+						default:
+							mod.command.message("Use 1 or rollback as argument after link to view previous rolls".clr(clr2));
+					};
+				});
 				break;
 			case "add":
 				if(!arg2){
@@ -428,7 +434,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				break;
 			default:
 				if(arg2){
-					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, shred, inspect, power and equip".clr(clr2));
+					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, shred, inspect, power, equip and add".clr(clr2));
 					return;
 				};
 		};
@@ -569,11 +575,11 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 	});
 	
 	
-	function get_jewel_per_chat_link(chat_link) {
+	async function get_jewel_per_chat_link(chat_link) {
         const expression = /@(\d*)@/;
         const item_dbid = chat_link.match(expression);
         if (item_dbid) {
-            let id =  Number.parseInt(item_dbid[1]);
+            let id =  parseInt(item_dbid[1]);
 			let item = inv.dbids[id];
 			if(!jewels.includes(item.id)){
 				return false;
@@ -581,36 +587,63 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 				let rolls = item.passivitySets[0].passivities;
 				let jewel = {};
 				jewel.pcp = rolls.reduce( (prev, cur) => Object.keys(new_p_cp).includes(cur.toString()) ? prev + new_p_cp[cur.toString()] : prev, 0);
-				jewel.pignore = rolls.reduce( (prev, cur) => Object.keys(new_p_ign).includes(cur.toString()) ? prev + new_p_ign[cur.toString()] : prev, 0)
-				jewel.ppierce = rolls.reduce( (prev, cur) => Object.keys(new_p_pie).includes(cur.toString()) ? prev + new_p_pie[cur.toString()] : prev, 0)
-				jewel.pamp = rolls.reduce( (prev, cur) => Object.keys(new_p_amp).includes(cur.toString()) ? prev + new_p_amp[cur.toString()] : prev, 0)
-				jewel.mcp = rolls.reduce( (prev, cur) => Object.keys(new_m_cp).includes(cur.toString()) ? prev + new_m_cp[cur.toString()] : prev, 0)
-				jewel.mignore = rolls.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0)
-				jewel.mpierce = rolls.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0)
-				jewel.mamp = rolls.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0)
-				if(classes[mod.game.me.templateId % 100 - 1][1] === "phys"){
-					jewel.pcp = jewel.pcp + 0.015;
-					jewel.pamp = jewel.pamp + 983;
-				} else if(classes[mod.game.me.templateId % 100 - 1][1] === "mag"){
-					jewel.mcp = jewel.mcp + 0.015;
-					jewel.mamp = jewel.mamp + 983;
-				};
+				jewel.pignore = rolls.reduce( (prev, cur) => Object.keys(new_p_ign).includes(cur.toString()) ? prev + new_p_ign[cur.toString()] : prev, 0);
+				jewel.ppierce = rolls.reduce( (prev, cur) => Object.keys(new_p_pie).includes(cur.toString()) ? prev + new_p_pie[cur.toString()] : prev, 0);
+				jewel.pamp = rolls.reduce( (prev, cur) => Object.keys(new_p_amp).includes(cur.toString()) ? prev + new_p_amp[cur.toString()] : prev, 0);
+				jewel.mcp = rolls.reduce( (prev, cur) => Object.keys(new_m_cp).includes(cur.toString()) ? prev + new_m_cp[cur.toString()] : prev, 0);
+				jewel.mignore = rolls.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0);
+				jewel.mpierce = rolls.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0);
+				jewel.mamp = rolls.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0);
+				jewel.power = powerJewels[item.id.toString()];
+				
 				let rolls1 = item.passivitySets[1].passivities;
 				let jewel1 = {};
 				jewel1.pcp = rolls1.reduce( (prev, cur) => Object.keys(new_p_cp).includes(cur.toString()) ? prev + new_p_cp[cur.toString()] : prev, 0);
-				jewel1.pignore = rolls1.reduce( (prev, cur) => Object.keys(new_p_ign).includes(cur.toString()) ? prev + new_p_ign[cur.toString()] : prev, 0)
-				jewel1.ppierce = rolls1.reduce( (prev, cur) => Object.keys(new_p_pie).includes(cur.toString()) ? prev + new_p_pie[cur.toString()] : prev, 0)
-				jewel1.pamp = rolls1.reduce( (prev, cur) => Object.keys(new_p_amp).includes(cur.toString()) ? prev + new_p_amp[cur.toString()] : prev, 0)
-				jewel1.mcp = rolls1.reduce( (prev, cur) => Object.keys(new_m_cp).includes(cur.toString()) ? prev + new_m_cp[cur.toString()] : prev, 0)
-				jewel1.mignore = rolls1.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0)
-				jewel1.mpierce = rolls1.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0)
-				jewel1.mamp = rolls1.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0)
-				if(classes[mod.game.me.templateId % 100 - 1][1] === "phys" && !circlets.includes(item.id)){
-					jewel1.pcp = jewel.pcp + 0.015;
-					jewel1.pamp = jewel.pamp + 983;
-				} else if(classes[mod.game.me.templateId % 100 - 1][1] === "mag" && !circlets.includes(item.id)){
-					jewel1.mcp = jewel.mcp + 0.015;
-					jewel1.mamp = jewel.mamp + 983;
+				jewel1.pignore = rolls1.reduce( (prev, cur) => Object.keys(new_p_ign).includes(cur.toString()) ? prev + new_p_ign[cur.toString()] : prev, 0);
+				jewel1.ppierce = rolls1.reduce( (prev, cur) => Object.keys(new_p_pie).includes(cur.toString()) ? prev + new_p_pie[cur.toString()] : prev, 0);
+				jewel1.pamp = rolls1.reduce( (prev, cur) => Object.keys(new_p_amp).includes(cur.toString()) ? prev + new_p_amp[cur.toString()] : prev, 0);
+				jewel1.mcp = rolls1.reduce( (prev, cur) => Object.keys(new_m_cp).includes(cur.toString()) ? prev + new_m_cp[cur.toString()] : prev, 0);
+				jewel1.mignore = rolls1.reduce( (prev, cur) => Object.keys(new_m_ign).includes(cur.toString()) ? prev + new_m_ign[cur.toString()] : prev, 0);
+				jewel1.mpierce = rolls1.reduce( (prev, cur) => Object.keys(new_m_pie).includes(cur.toString()) ? prev + new_m_pie[cur.toString()] : prev, 0);
+				jewel1.mamp = rolls1.reduce( (prev, cur) => Object.keys(new_m_amp).includes(cur.toString()) ? prev + new_m_amp[cur.toString()] : prev, 0);
+				jewel1.power = powerJewels[item.id.toString()];
+				
+				if(item.crystals.length === 1 && item.crystals[0] === powerCrystal){
+					jewel.power = jewel.power + 3;
+					jewel1.power = jewel1.power + 3;
+				};
+				
+				if(item.hasEtching){
+					let promise = new Promise((resolve, reject) => {
+						mod.hookOnce("S_SHOW_ITEM_TOOLTIP", 17, (event) =>{
+							let etching = event.etching1;
+							if(fearless.includes(etching)){
+								mod.log(jewel.pcp)
+								jewel.pcp = jewel.pcp + 0.015;
+								mod.log(jewel.pcp)
+								jewel.pamp = jewel.pamp + 983;
+								jewel1.pcp = jewel1.pcp + 0.015;
+								jewel1.pamp = jewel1.pamp + 983;
+							} else if(wise.includes(etching)){
+								jewel.mcp = jewel.mcp + 0.015;
+								jewel.mamp = jewel.mamp + 983;
+								jewel1.mcp = jewel1.mcp + 0.015;
+								jewel1.mamp = jewel1.mamp + 983;
+							} else if(Object.keys(powerEtch).includes(etching.toString())){
+								jewel.power = jewel.power + powerEtch[etching.toString()];
+								jewel1.power = jewel1.power + powerEtch[etching.toString()];
+							};
+							resolve(undefined);
+							return false;
+						});
+					});
+					mod.toServer("C_SHOW_ITEM_TOOLTIP_EX", 6, {
+						type: 22,
+						dbid: parseInt(item_dbid[1]),
+						extraValue: 0n,
+						owner: {serverId: 0, playerId: mod.game.me.playerId, name: mod.game.me.name}
+					});
+					await promise;
 				};
 				return [jewel, jewel1];
 			};
@@ -628,5 +661,6 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 		bonusPiercingMagical = jewel.mpierce;
 		bonusAttackPhysical = jewel.pamp;
 		bonusAttackMagical = jewel.mamp;
+		bonusPower = jewel.power;
 	};
 };
