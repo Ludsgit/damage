@@ -2,7 +2,7 @@
     "disableAutoUpdate": false,
     "name": "damage",
     "author": "Ludsgit",
-    "description": "Tells you your/someone else's damage modifier",
+    "description": "Tells you your/someone else's total modifier",
     "version": "2",
     "options": {
         "niceName": "damage",
