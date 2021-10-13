@@ -524,7 +524,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 			let physicalModifier = attackPhysical * (classes[event.templateId % 100 - 1][1] === "phys" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossPhysicalDefenseCapped);
 			let magicalModifier = attackMagical * (classes[event.templateId % 100 - 1][1] === "mag" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossMagicalDefenseCapped);
 			
-			let totalModifier = (critPower * 0.9 + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier);
+			let totalModifier = 0.9 * (critPower + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier);
 			
 			let powerFactor = (1 + (event.powerBonus + bonusPower) / (100 + event.power)) * (3 + 0.03 * event.power);
 			

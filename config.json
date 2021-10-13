@@ -11,7 +11,7 @@
         "wine_me": true,
         "wine_tank": true,
         "wine_healer": true,
-        "cruel_curse": true,
+        "cruel_curse": false,
         "death_sentence": true,
         "skill_main_mod": 180,
         "skill_sec_mod": 40,

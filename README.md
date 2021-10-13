@@ -36,12 +36,12 @@ All commands start with /8 damage:
 
 Total modifier calculated according to the following formulas:
 
-totalModifier = normalCritPow * 0.9 + physCritPower * physAmp * skillPhysFactor / (100000 + physDef) + magCritPower * magAmp * skillMagFactor / (100000 + magDef)
+totalModifier = 0.9 * (normalCritPow + physCritPower * physAmp * skillPhysFactor / (100000 + physDef) + magCritPower * magAmp * skillMagFactor / (100000 + magDef)) * critRate + (1 +  physAmp * skillPhysFactor / (100000 + physDef) + magAmp * skillMagFactor / (100000 + magDef)) * (1 - critRate)
 
 where typeDef = max(-33333, baseResist * pierceMultiplier - shred - resistIgnore)
 
 where pierceMultiplier = max(1 - (pierce / (pierce + 10000)), 0.2)
 
-and total modifier is multipied by a factor (1 + bonusPower / (basePower + 100)) * (3 + 0.03 * basePower) if power is enabled for calculation
+and total modifier is multipied by a factor (1 + bonusPower / (basePower + 100)) * (3 + 0.03 * basePower) if power is enabled for calculation.
 
 (formulas taken from tera -theorycraft discord)
