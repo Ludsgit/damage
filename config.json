@@ -2,7 +2,7 @@
     "version": 1,
     "data": {
         "tank_res": 250000,
-        "healer_res": 285050,
+        "healer_res": 285000,
         "boss_res": 92500,
         "aura_amp": 5,
         "aura_pres": 5,
@@ -11,7 +11,7 @@
         "wine_me": true,
         "wine_tank": true,
         "wine_healer": true,
-        "cruel_curse": false,
+        "cruel_curse": true,
         "death_sentence": true,
         "skill_main_mod": 180,
         "skill_sec_mod": 40,
