@@ -1,10 +1,10 @@
 ### Description
-A tera-toolbox module that calculates the total damage modifier of a character based on ingame stats and the mod settings.
+A tera-toolbox module that calculates the total modifier of a character based on ingame stats and the mod settings.
 
 ### Commands
 All commands start with /8 damage:
 
-/8 damage: prints your current damage modifier
+/8 damage: prints your current total modifier
 - boss: displays current boss resistance value
 - - (value): changes boss resistance to value
 - tank: displays current tank and its amp/resist value
@@ -22,10 +22,15 @@ All commands start with /8 damage:
 - - crit (value): sets the skill crit rate to value%
 - curse: toggles on/off cruel curse effect
 - sentence: toggles on/off death sentence effect
-- shred: toggles on/off display of boss defenses with damage modifier
+- shred: toggles on/off display of boss defenses with total modifier
 - inspect: toggles on/off display of damage modifier when inspecting someone
-- - (name) (server): prints damage modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
-- power: toggles on/off using power for damage modifier calculation
+- - (name) (server): prints total modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
+- power: toggles on/off using power for total modifier calculation
+- equip (jewel.): calculates your total modifier after equipping a linked ring/earring/circlet/necklace.
+- - - rollback/1: calculates your total modifier after equipping the previous set of rolls of a linked ring/earring/circlet/necklace.
+- add: displays whether stats holding is enabled, and if so displays the currently held stats.
+- add (stat) (value): calculates total modifier after adding value to stat. Possible stats are "cp", "pierce", "ignore", "amp", "power". Class passives will be applied to the added stat(s). Currently not supported when inspecting other players; totalmodifier will be wrong if you inspect another type of class than your own
+- add hold: toggles on/off holding the stats added for the previous command. If hold is enabled, total modifier calculation has to be manually requested.
 
 ### Math
 
