@@ -3,7 +3,7 @@
     "data": {
         "tank_res": 250000,
         "healer_res": 285000,
-        "boss_res": 92500,
+        "boss_res": 120000,
         "aura_amp": 5,
         "aura_pres": 5,
         "aura_mres": 5,

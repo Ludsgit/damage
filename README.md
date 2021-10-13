@@ -36,7 +36,7 @@ All commands start with /8 damage:
 
 Total modifier calculated according to the following formulas:
 
-totalModifier = 0.9 * (normalCritPow + physCritPower * physAmp * skillPhysFactor / (100000 + physDef) + magCritPower * magAmp * skillMagFactor / (100000 + magDef)) * critRate + (1 +  physAmp * skillPhysFactor / (100000 + physDef) + magAmp * skillMagFactor / (100000 + magDef)) * (1 - critRate)
+totalModifier = (0.9 * normalCritPow + physCritPower * physAmp * skillPhysFactor / (100000 + physDef) + magCritPower * magAmp * skillMagFactor / (100000 + magDef)) * critRate + (1 +  physAmp * skillPhysFactor / (100000 + physDef) + magAmp * skillMagFactor / (100000 + magDef)) * (1 - critRate)
 
 where typeDef = max(-33333, baseResist * pierceMultiplier - shred - resistIgnore)
 
