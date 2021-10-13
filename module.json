@@ -11,5 +11,5 @@
         "settingsVersion": 1,
         "settingsMigrator": "settings_migrator.js"
     },
-    "servers": ["https://raw.githubusercontent.com/Ludsgit/damage/beta/"]
+    "servers": ["https://raw.githubusercontent.com/Ludsgit/damage/main/"]
 }
