@@ -127,7 +127,7 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 			case "healer":
 				if(!arg2){
 					mod.command.message(`
-Healer resist: ${config.healer_res}`.clr(clr3));
+Healer resist: ` + `${config.healer_res}`.clr(clr3));
 					return;
 				};
 				if(arg2 === "inspect"){
