@@ -8,9 +8,11 @@ All commands start with /8 damage:
 - boss: displays current boss resistance value
 - - (value): changes boss resistance to value
 - tank: displays current tank and its amp/resist value
+- - inspect (name): changes tank class to name's class and changes tank resist/amp to name's resist/amp
 - - (value): changes resistance (amp for brawler) to value
 - - (class): changes the class of the tank. Possible classes are "warrior", "brawler" and "lancer"
 - healer: displays current healer's mag resist value
+- - inspect(name): changes healer resistance to name's resistance
 - - (value): changes healer resistance to value
 - wine: displays current wine configuration for self, tank and healer
 - - (user): toggles on/off wine for user. Possible users are "me", "self", "tank", "healer"

@@ -39,6 +39,8 @@ module.exports = function Damage(mod){
 	let config = mod.settings;
 	
 	let requested = false;
+	let tankRequested = false;
+	let healerRequested = false;
 	let hold = false;
 	let bonusCritPowerPhysical = 0;
 	let bonusCritPowerMagical = 0;
@@ -93,6 +95,19 @@ Boss resist value: ` + `${config.boss_res}`.clr(clr3));
 Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? "amp" : "resist")}: ` + `${config.tank_res}`.clr(clr3));
 					return;
 				};
+				if(arg2 === "inspect"){
+					if(!arg3){
+						mod.command.message("Missing name of tank".clr(clr2));
+					} else {
+						tankRequested = true;
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+							serverId: mod.game.me.serverId,
+							zoom: false,
+							name: arg3				
+						});
+					};
+					return;
+				};
 				if(!isNaN(arg2)){
 					config.tank_res = parseFloat(arg2);
 					mod.command.message(`Tank physical ${(config.tank === "brawler" ? "amp" : "resist")} set to ` + `${config.tank_res}`.clr(clr1));
@@ -106,7 +121,7 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 					break;
 				};
 				if(isNaN(arg2) && ["warrior", "lancer", "brawler"].indexOf(arg2) === -1){
-					mod.command.message("Input must be a number or a tank class: warrior, lancer or brawler".clr(clr2));
+					mod.command.message("Input must be a number, a tank class: warrior, lancer or brawler, or an inspect request".clr(clr2));
 					return;
 				};
 			case "healer":
@@ -115,8 +130,21 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 Healer resist: ${config.healer_res}`.clr(clr3));
 					return;
 				};
+				if(arg2 === "inspect"){
+					if(!arg3){
+						mod.command.message("Missing name of healer".clr(clr2));
+					} else {
+						healerRequested = true;
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+							serverId: mod.game.me.serverId,
+							zoom: false,
+							name: arg3				
+						});
+					};
+					return;
+				};
 				if(isNaN(arg2)){
-					mod.command.message("Healer magical resist must be a number".clr(clr2));
+					mod.command.message("Healer magical resist must be a number or an inspect request".clr(clr2));
 					return;
 				};
 				config.healer_res = parseFloat(arg2);
@@ -442,6 +470,37 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 	
 	
 	mod.hook("S_USER_PAPERDOLL_INFO", 15, (event) => {
+		if(tankRequested){
+			if(["Warrior", "Brawler", "Lancer"].indexOf(classes[event.templateId % 100 - 1][0]) === -1){
+				mod.command.message("Tank must be a warrior, a brawler or a lancer".clr(clr2));
+				tankRequested = false;
+				return false;
+			};
+			config.tank = classes[event.templateId % 100 - 1][0];
+			mod.command.message(`Tank class set to ` + `${config.tank}`.clr(clr1));
+			if(["Warrior", "Lancer"].indexOf(classes[event.templateId % 100 - 1][0]) !== -1){
+				config.tank_res = event.defensePhysical + event.defensePhysicalBonus;
+				mod.command.message(`Tank physical resist set to ` + `${config.tank_res}`.clr(clr1));
+			} else {
+				config.tank_res = event.attackPhysicalMin + event.attackPhysicalMinBonus;
+				mod.command.message(`Tank physical amp set to ` + `${config.tank_res}`.clr(clr1));
+			};
+			mod.saveSettings();
+			tankRequested = false;
+			return false;
+		};
+		if(healerRequested){
+			if(["Priest", "Mystic"].indexOf(classes[event.templateId % 100 - 1][0]) === -1){
+				mod.command.message("Healer must be a priest or a mystic".clr(clr2));
+				healerRequested = false;
+				return false;
+			};
+			config.healer_res = event.defenseMagical + event.defenseMagicalBonus;
+			mod.command.message(`Healer magical resist set to ` + `${config.healer_res}`.clr(clr1));
+			mod.saveSettings();
+			healerRequested = false;
+			return false;
+		};
 		if(requested || config.auto_inspect){
 			
 			if(hold && event.gameId !== mod.game.me.gameId){
