@@ -302,7 +302,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				break;
 			case "resist":
 				config.shred = !config.shred;
-				mod.command.message(`Shred display ` + `${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Resist display ` + `${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "shred":
@@ -320,7 +320,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				}
 				let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
 				let shred = tankShred + healerShred + (config.death_sentence ? 5000 : 0) + (config.cruel_curse ? 9400 : 0);
-				mod.command.message(`Current shred: ` + `${shred}`.clr(clr1));
+				mod.command.message(`Current shred: ` + `${Math.floor(shred)}`.clr(clr1));
 				break;
 			case "inspect":
 				if(!arg2){
