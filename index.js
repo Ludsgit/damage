@@ -300,10 +300,27 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					mod.command.message("Type of skill modifier not found. Accepted arguments are main, sec and crit".clr(clr2));
 				};
 				break;
-			case "shred":
+			case "resist":
 				config.shred = !config.shred;
 				mod.command.message(`Shred display ` + `${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
+				break;
+			case "shred":
+				let tankShred = 0;
+				switch(config.tank){
+					case "warrior":
+						tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.25 : 0)) * aura_pres[config.aura_pres];
+						break;
+					case "lancer":
+						tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.05 : 0)) * aura_pres[config.aura_pres];
+						break;
+					case "brawler":
+						tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
+						break;
+				}
+				let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
+				let shred = tankShred + healerShred + (config.death_sentence ? 5000 : 0) + (config.cruel_curse ? 9400 : 0);
+				mod.command.message(`Current shred: ` + `${shred}`.clr(clr1));
 				break;
 			case "inspect":
 				if(!arg2){
@@ -462,7 +479,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				break;
 			default:
 				if(arg2){
-					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, shred, inspect, power, equip and add".clr(clr2));
+					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, power, equip and add".clr(clr2));
 					return;
 				};
 		};

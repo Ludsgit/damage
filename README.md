@@ -24,7 +24,8 @@ All commands start with /8 damage:
 - - crit (value): sets the skill crit rate to value%
 - curse: toggles on/off cruel curse effect
 - sentence: toggles on/off death sentence effect
-- shred: toggles on/off display of boss defenses with total modifier
+- resist: toggles on/off display of boss defenses with total modifier
+- shred: displays current shred
 - inspect: toggles on/off display of damage modifier when inspecting someone
 - - (name) (server): prints total modifier of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
 - power: toggles on/off using power for total modifier calculation

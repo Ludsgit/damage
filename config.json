@@ -2,7 +2,7 @@
     "version": 1,
     "data": {
         "tank_res": 244717,
-        "healer_res": 296000,
+        "healer_res": 296786,
         "boss_res": 120000,
         "aura_amp": 5,
         "aura_pres": 5,
