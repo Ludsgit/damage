@@ -476,7 +476,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				tankRequested = false;
 				return false;
 			};
-			config.tank = classes[event.templateId % 100 - 1][0];
+			config.tank = classes[event.templateId % 100 - 1][0].toLowerCase();
 			mod.command.message(`Tank class set to ` + `${config.tank}`.clr(clr1));
 			if(["Warrior", "Lancer"].indexOf(classes[event.templateId % 100 - 1][0]) !== -1){
 				config.tank_res = event.defensePhysical + event.defensePhysicalBonus;
