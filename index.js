@@ -478,7 +478,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				};
 				break;
 			default:
-				if(arg2){
+				if(arg1){
 					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, power, equip and add".clr(clr2));
 					return;
 				};
