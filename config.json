@@ -10,7 +10,7 @@
         "aura_pierce": 5,
         "wine_me": true,
         "wine_tank": true,
-        "wine_healer": true,
+        "wine_healer": false,
         "cruel_curse": true,
         "death_sentence": true,
         "skill_main_mod": 180,
@@ -19,6 +19,6 @@
         "tank": "warrior",
         "shred": true,
         "auto_inspect": true,
-        "power": false
+        "power": true
     }
 }

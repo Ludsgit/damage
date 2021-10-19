@@ -318,7 +318,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
 						break;
 				}
-				let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
+				let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0) * 1.05) * aura_mres[config.aura_mres];
 				let shred = tankShred + healerShred + (config.death_sentence ? 5000 : 0) + (config.cruel_curse ? 9400 : 0);
 				mod.command.message(`Current shred: ` + `${Math.floor(shred)}`.clr(clr1));
 				break;
@@ -586,7 +586,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
 					break;
 			}
-			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
+			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0) * 1.05) * aura_mres[config.aura_mres];
 			
 			let piercingPhysicalMultiplier = Math.min( piercingPhysical / (10000 + piercingPhysical), 0.8 );
 			let piercingMagicalMultiplier = Math.min( piercingMagical / (10000 + piercingMagical), 0.8 );
