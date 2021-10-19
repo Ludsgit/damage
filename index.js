@@ -263,28 +263,28 @@ Wine for healer is ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(cl
 			case "skill":
 				if(!arg2){
 					mod.command.message(`
-Skill main modifier: ` + `${config.skill_main_mod}%`.clr(clr3) + `
-Skill sec modifier: ` + `${config.skill_sec_mod}%`.clr(clr3) + `
+Skill main factor: ` + `${config.skill_main_mod}%`.clr(clr3) + `
+Skill sec factor: ` + `${config.skill_sec_mod}%`.clr(clr3) + `
 Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					return;
 				};
 				if(!arg3){
-					mod.command.message("Missing crit/skill modifier value".clr(clr2));
+					mod.command.message("Missing crit/skill factor value".clr(clr2));
 					return;
 				};
 				if(isNaN(arg3)){
-					mod.command.message("Crit/skill modifier must be a number".clr(clr2));
+					mod.command.message("Crit/skill factor must be a number".clr(clr2));
 					return;
 				};
 				switch(arg2){
 					case "main":
 						config.skill_main_mod = parseFloat(arg3);
-						mod.command.message(`Skill main modifier set to ` + `${config.skill_main_mod}%`.clr(clr1));
+						mod.command.message(`Skill main factor set to ` + `${config.skill_main_mod}%`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "sec":
 						config.skill_sec_mod = parseFloat(arg3);
-						mod.command.message(`Skill secondary modifier set to ` + `${config.skill_sec_mod}%`.clr(clr1));
+						mod.command.message(`Skill secondary factor set to ` + `${config.skill_sec_mod}%`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "crit":
@@ -297,7 +297,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						mod.saveSettings();
 						break;	
 					default:
-					mod.command.message("Type of skill modifier not found. Accepted arguments are main, sec and crit".clr(clr2));
+					mod.command.message("Type of skill factor not found. Accepted arguments are main, sec and crit".clr(clr2));
 				};
 				break;
 			case "resist":
@@ -325,7 +325,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 			case "inspect":
 				if(!arg2){
 					config.auto_inspect = !config.auto_inspect;
-					mod.command.message(`Automatic damage modifier calculation on inspection ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
+					mod.command.message(`Automatic total mod calculation on inspection ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
 					mod.saveSettings();
 					return;
 				}
@@ -352,7 +352,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				break;
 			case "power":
 				config.power = !config.power;
-				mod.command.message(`Using power for damage modifier ` + `${(config.power ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Adding power to total mod ` + `${(config.power ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "equip":
@@ -613,17 +613,17 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 			if(config.shred){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
 					mod.command.message(`
-${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}
+${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}
 `.clr(clr3) + `Boss phys defense = ` + `${Math.ceil(bossPhysicalDefenseCapped)} (${Math.ceil(bossPhysicalDefense)})`.clr(clr3));
 				};
 				if(classes[event.templateId % 100 - 1][1] === "mag"){
 					mod.command.message(`
-${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}
+${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}
 `.clr(clr3) + `Boss phys defense = ` + `${Math.ceil(bossMagicalDefenseCapped)} (${Math.ceil(bossMagicalDefense)})`.clr(clr3));
 				};
 			} else {
 				mod.command.message(`
-${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3));
+${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}`.clr(clr3));
 			};
 			
 			requested = false;
