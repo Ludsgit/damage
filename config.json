@@ -1,11 +1,11 @@
 {
     "version": 2,
     "data": {
-        "tank_res": 244717,
-        "healer_res": 296786,
+        "tank_res": 250000,
+        "healer_res": 300000,
         "boss_res": 120000,
         "aura_amp": 5,
-        "aura_pres": 4,
+        "aura_pres": 5,
         "aura_mres": 5,
         "aura_pierce": 5,
         "wine_me": true,
@@ -13,6 +13,8 @@
         "wine_healer": true,
         "cruel_curse": true,
         "death_sentence": true,
+        "skill_phys_mod": 180,
+        "skill_mag_mod": 36,
         "crit_rate": 100,
         "tank": "warrior",
         "shred": true,
