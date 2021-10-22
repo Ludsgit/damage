@@ -19,6 +19,7 @@ const DefaultSettings = {
     "tank": "warrior",
     "shred": true,
     "auto_inspect": true,
+	"on_apply": true,
     "power": true
 }
 
