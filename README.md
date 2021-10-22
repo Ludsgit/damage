@@ -28,6 +28,7 @@ All commands start with /8 damage:
 - shred: displays current shred
 - inspect: toggles on/off display of total mod when inspecting someone
 - - (name) (server): prints total mod of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
+- apply: toggles on/off display fo total mod when someone applies to your party
 - power: toggles on/off adding power to total mod calculation
 - equip (jewel.): calculates your total mod after equipping a linked ring/earring/circlet/necklace.
 - - - rollback/1: calculates your total mod after equipping the previous set of rolls of a linked ring/earring/circlet/necklace.

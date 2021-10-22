@@ -39,6 +39,7 @@ module.exports = function Damage(mod){
 	let config = mod.settings;
 	
 	let requested = false;
+	let applyHook = null;
 	let tankRequested = false;
 	let healerRequested = false;
 	let hold = false;
@@ -52,6 +53,19 @@ module.exports = function Damage(mod){
 	let bonusAttackMagical = 0;
 	let bonusPower = 0;
 	
+	mod.game.on("enter_game", () => {
+		if(config.on_apply){
+			applyHook = mod.hook("S_OTHER_USER_APPLY_PARTY", "*", (event) => {
+				requested = true;
+				mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+					serverId: event.serverId,
+					zoom: false,
+					name: event.name				
+				});
+			});
+		};
+	});
+	
 	mod.game.on("leave_game", () => {
 		hold = false;
 		bonusCritPowerPhysical = 0;
@@ -63,12 +77,16 @@ module.exports = function Damage(mod){
 		bonusAttackPhysical = 0;
 		bonusAttackMagical = 0;
 		bonusPower = 0;
+		if(applyHook){
+			mod.unhook(applyHook);
+		};
+		applyHook = null;
 	});
 	
 	mod.command.add('damage', (arg1,arg2,arg3) => {
 		if(!arg1){
 			requested = true;
-			mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+			mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 				serverId: mod.game.me.serverId,
 				zoom: false,
 				name: mod.game.me.name				
@@ -100,7 +118,7 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 						mod.command.message("Missing name of tank".clr(clr2));
 					} else {
 						tankRequested = true;
-						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 							serverId: mod.game.me.serverId,
 							zoom: false,
 							name: arg3				
@@ -135,7 +153,7 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 						mod.command.message("Missing name of healer".clr(clr2));
 					} else {
 						healerRequested = true;
-						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 							serverId: mod.game.me.serverId,
 							zoom: false,
 							name: arg3				
@@ -331,7 +349,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				}
 				if(!arg3){
 					requested = true;
-					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
 						name: arg2				
@@ -340,7 +358,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				}
 				if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					requested = true;
-					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: servers[arg3],
 						zoom: false,
 						name: arg2				
@@ -370,7 +388,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						case "0":
 							update_bonus(bonus[0]);
 							requested = true;
-							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 								serverId: mod.game.me.serverId,
 								zoom: false,
 								name: mod.game.me.name				
@@ -380,7 +398,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						case "rollback":
 							update_bonus(bonus[1]);
 							requested = true;
-							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 								serverId: mod.game.me.serverId,
 								zoom: false,
 								name: mod.game.me.name				
@@ -470,23 +488,39 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				};
 				if(!hold){
 					requested = true;
-					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
 						name: mod.game.me.name				
 					});
 				};
 				break;
+			case "apply":
+				config.on_apply = !config.on_apply;
+				mod.command.message("Automatic total mod display upon party application: " + `${(config.on_apply ? "enabled" : "disabled")}.clr(clr1)`);
+				if(config.on_apply){
+					applyHook = mod.hook("S_OTHER_USER_APPLY_PARTY", "*", (event) => {
+						requested = true;
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+							serverId: event.serverId,
+							zoom: false,
+							name: event.name				
+						});
+					});
+				} else {
+					mod.unhook(applyHook);
+				};
+				break;
 			default:
 				if(arg1){
-					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, power, equip and add".clr(clr2));
+					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, apply, power, equip and add".clr(clr2));
 					return;
 				};
 		};
 	});
 	
 	
-	mod.hook("S_USER_PAPERDOLL_INFO", 15, (event) => {
+	mod.hook("S_USER_PAPERDOLL_INFO", "*", (event) => {
 		if(tankRequested){
 			if(["Warrior", "Brawler", "Lancer"].indexOf(classes[event.templateId % 100 - 1][0]) === -1){
 				mod.command.message("Tank must be a warrior, a brawler or a lancer".clr(clr2));
@@ -520,8 +554,8 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 		};
 		if(requested || config.auto_inspect){
 			
-			if(hold && event.gameId !== mod.game.me.gameId){
-				mod.command.message(`Adding stats for other players is not currently supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2));
+			if(hold && classes[event.templateId % 100 - 1][1] !== classes[mod.game.me.templateId % 100 - 1][1]){
+				mod.command.message(`Adding stats for other players is not currently fully supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2));
 			};
 			
 			if(config.wine_me){
@@ -693,7 +727,7 @@ ${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}`.clr(clr3));
 				
 				if(item.hasEtching){
 					let promise = new Promise((resolve, reject) => {
-						mod.hookOnce("S_SHOW_ITEM_TOOLTIP", 17, (event) =>{
+						mod.hookOnce("S_SHOW_ITEM_TOOLTIP", "*", (event) =>{
 							let etching = event.etching1;
 							if(fearless.includes(etching)){
 								jewel.pcp = jewel.pcp + 0.015;
@@ -739,4 +773,5 @@ ${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}`.clr(clr3));
 		bonusAttackMagical = jewel.mamp;
 		bonusPower = jewel.power;
 	};
+	
 };

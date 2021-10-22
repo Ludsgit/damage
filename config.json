@@ -1,5 +1,5 @@
 {
-    "version": 1,
+    "version": 2,
     "data": {
         "tank_res": 244717,
         "healer_res": 296786,
@@ -19,6 +19,7 @@
         "tank": "warrior",
         "shred": true,
         "auto_inspect": true,
+		"on_apply": true,
         "power": false
     }
 }
