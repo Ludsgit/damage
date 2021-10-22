@@ -21,16 +21,14 @@ const DefaultSettings = {
     "auto_inspect": true,
 	"on_apply": true,
     "power": true
-}
+};
 
 module.exports = function MigrateSettings(from_ver, to_ver, settings) {
 	if (from_ver === null) { // No config file exists, use default settings
 		return DefaultSettings;
 	}
 	else { // Migrate from older version (using the new system) to latest one
-		if(from_ver < to_ver) console.log('Your settings have been updated to version ' + to_ver);
-		return Object.assign(DefaultSettings, settings)
-		/*
+		
 		if (from_ver + 1 < to_ver) { // Recursively upgrade in one-version steps
 			settings = MigrateSettings(from_ver, from_ver + 1, settings);
 			return MigrateSettings(from_ver + 1, to_ver, settings);
@@ -46,13 +44,12 @@ module.exports = function MigrateSettings(from_ver, to_ver, settings) {
 				for(let option in oldsettings) {
 					if(settings[option]) {
 						settings[option] = oldsettings[option];
-					}
-				}
+					};
+				};
 
-				if(from_ver < to_ver) mod.log('Your settings have been updated to version ' + to_ver + '. You can edit the new config file after the next relog.');
+				if(from_ver < to_ver) console.log('Your settings have been updated to version ' + to_ver + '. You can edit the new config file after the next relog.');
 				break;
-		}
+		};
 		return settings;
-		*/
-	}
-}
+	};
+};

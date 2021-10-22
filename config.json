@@ -5,7 +5,7 @@
         "healer_res": 296786,
         "boss_res": 120000,
         "aura_amp": 5,
-        "aura_pres": 5,
+        "aura_pres": 4,
         "aura_mres": 5,
         "aura_pierce": 5,
         "wine_me": true,
@@ -13,13 +13,13 @@
         "wine_healer": true,
         "cruel_curse": true,
         "death_sentence": true,
-        "skill_main_mod": 180,
-        "skill_sec_mod": 40,
         "crit_rate": 100,
         "tank": "warrior",
         "shred": true,
         "auto_inspect": true,
-		"on_apply": true,
-        "power": false
+        "on_apply": true,
+        "power": false,
+        "skill_main_mod": 180,
+        "skill_sec_mod": 40
     }
 }
