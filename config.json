@@ -1,9 +1,9 @@
 {
-    "version": 1,
+    "version": 2,
     "data": {
-        "tank_res": 250000,
-        "healer_res": 285050,
-        "boss_res": 92500,
+        "tank_res": 244717,
+        "healer_res": 296786,
+        "boss_res": 120000,
         "aura_amp": 5,
         "aura_pres": 5,
         "aura_mres": 5,
@@ -19,6 +19,7 @@
         "tank": "warrior",
         "shred": true,
         "auto_inspect": true,
+		"on_apply": true,
         "power": false
     }
 }

@@ -39,6 +39,9 @@ module.exports = function Damage(mod){
 	let config = mod.settings;
 	
 	let requested = false;
+	let applyHook = null;
+	let tankRequested = false;
+	let healerRequested = false;
 	let hold = false;
 	let bonusCritPowerPhysical = 0;
 	let bonusCritPowerMagical = 0;
@@ -49,6 +52,19 @@ module.exports = function Damage(mod){
 	let bonusAttackPhysical = 0;
 	let bonusAttackMagical = 0;
 	let bonusPower = 0;
+	
+	mod.game.on("enter_game", () => {
+		if(config.on_apply){
+			applyHook = mod.hook("S_OTHER_USER_APPLY_PARTY", "*", (event) => {
+				requested = true;
+				mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+					serverId: event.serverId,
+					zoom: false,
+					name: event.name				
+				});
+			});
+		};
+	});
 	
 	mod.game.on("leave_game", () => {
 		hold = false;
@@ -61,12 +77,16 @@ module.exports = function Damage(mod){
 		bonusAttackPhysical = 0;
 		bonusAttackMagical = 0;
 		bonusPower = 0;
+		if(applyHook){
+			mod.unhook(applyHook);
+		};
+		applyHook = null;
 	});
 	
 	mod.command.add('damage', (arg1,arg2,arg3) => {
 		if(!arg1){
 			requested = true;
-			mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+			mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 				serverId: mod.game.me.serverId,
 				zoom: false,
 				name: mod.game.me.name				
@@ -93,6 +113,19 @@ Boss resist value: ` + `${config.boss_res}`.clr(clr3));
 Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? "amp" : "resist")}: ` + `${config.tank_res}`.clr(clr3));
 					return;
 				};
+				if(arg2 === "inspect"){
+					if(!arg3){
+						mod.command.message("Missing name of tank".clr(clr2));
+					} else {
+						tankRequested = true;
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+							serverId: mod.game.me.serverId,
+							zoom: false,
+							name: arg3				
+						});
+					};
+					return;
+				};
 				if(!isNaN(arg2)){
 					config.tank_res = parseFloat(arg2);
 					mod.command.message(`Tank physical ${(config.tank === "brawler" ? "amp" : "resist")} set to ` + `${config.tank_res}`.clr(clr1));
@@ -106,17 +139,30 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 					break;
 				};
 				if(isNaN(arg2) && ["warrior", "lancer", "brawler"].indexOf(arg2) === -1){
-					mod.command.message("Input must be a number or a tank class: warrior, lancer or brawler".clr(clr2));
+					mod.command.message("Input must be a number, a tank class: warrior, lancer or brawler, or an inspect request".clr(clr2));
 					return;
 				};
 			case "healer":
 				if(!arg2){
 					mod.command.message(`
-Healer resist: ${config.healer_res}`.clr(clr3));
+Healer resist: ` + `${config.healer_res}`.clr(clr3));
+					return;
+				};
+				if(arg2 === "inspect"){
+					if(!arg3){
+						mod.command.message("Missing name of healer".clr(clr2));
+					} else {
+						healerRequested = true;
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+							serverId: mod.game.me.serverId,
+							zoom: false,
+							name: arg3				
+						});
+					};
 					return;
 				};
 				if(isNaN(arg2)){
-					mod.command.message("Healer magical resist must be a number".clr(clr2));
+					mod.command.message("Healer magical resist must be a number or an inspect request".clr(clr2));
 					return;
 				};
 				config.healer_res = parseFloat(arg2);
@@ -235,28 +281,28 @@ Wine for healer is ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(cl
 			case "skill":
 				if(!arg2){
 					mod.command.message(`
-Skill main modifier: ` + `${config.skill_main_mod}%`.clr(clr3) + `
-Skill sec modifier: ` + `${config.skill_sec_mod}%`.clr(clr3) + `
+Skill main factor: ` + `${config.skill_main_mod}%`.clr(clr3) + `
+Skill sec factor: ` + `${config.skill_sec_mod}%`.clr(clr3) + `
 Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					return;
 				};
 				if(!arg3){
-					mod.command.message("Missing crit/skill modifier value".clr(clr2));
+					mod.command.message("Missing crit/skill factor value".clr(clr2));
 					return;
 				};
 				if(isNaN(arg3)){
-					mod.command.message("Crit/skill modifier must be a number".clr(clr2));
+					mod.command.message("Crit/skill factor must be a number".clr(clr2));
 					return;
 				};
 				switch(arg2){
 					case "main":
 						config.skill_main_mod = parseFloat(arg3);
-						mod.command.message(`Skill main modifier set to ` + `${config.skill_main_mod}%`.clr(clr1));
+						mod.command.message(`Skill main factor set to ` + `${config.skill_main_mod}%`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "sec":
 						config.skill_sec_mod = parseFloat(arg3);
-						mod.command.message(`Skill secondary modifier set to ` + `${config.skill_sec_mod}%`.clr(clr1));
+						mod.command.message(`Skill secondary factor set to ` + `${config.skill_sec_mod}%`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "crit":
@@ -269,24 +315,41 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						mod.saveSettings();
 						break;	
 					default:
-					mod.command.message("Type of skill modifier not found. Accepted arguments are main, sec and crit".clr(clr2));
+					mod.command.message("Type of skill factor not found. Accepted arguments are main, sec and crit".clr(clr2));
 				};
 				break;
-			case "shred":
+			case "resist":
 				config.shred = !config.shred;
-				mod.command.message(`Shred display ` + `${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Resist display ` + `${(config.shred ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
+				break;
+			case "shred":
+				let tankShred = 0;
+				switch(config.tank){
+					case "warrior":
+						tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.25 : 0)) * aura_pres[config.aura_pres];
+						break;
+					case "lancer":
+						tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.05 : 0)) * aura_pres[config.aura_pres];
+						break;
+					case "brawler":
+						tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
+						break;
+				}
+				let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0) * 1.05) * aura_mres[config.aura_mres];
+				let shred = tankShred + healerShred + (config.death_sentence ? 5000 : 0) + (config.cruel_curse ? 9400 : 0);
+				mod.command.message(`Current shred: ` + `${Math.floor(shred)}`.clr(clr1));
 				break;
 			case "inspect":
 				if(!arg2){
 					config.auto_inspect = !config.auto_inspect;
-					mod.command.message(`Automatic damage modifier calculation on inspection ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
+					mod.command.message(`Automatic total mod calculation on inspection ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
 					mod.saveSettings();
 					return;
 				}
 				if(!arg3){
 					requested = true;
-					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
 						name: arg2				
@@ -295,7 +358,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				}
 				if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					requested = true;
-					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: servers[arg3],
 						zoom: false,
 						name: arg2				
@@ -307,7 +370,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 				break;
 			case "power":
 				config.power = !config.power;
-				mod.command.message(`Using power for damage modifier ` + `${(config.power ? "enabled" : "disabled")}`.clr(clr1));
+				mod.command.message(`Adding power to total mod ` + `${(config.power ? "enabled" : "disabled")}`.clr(clr1));
 				mod.saveSettings();
 				break;
 			case "equip":
@@ -325,7 +388,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						case "0":
 							update_bonus(bonus[0]);
 							requested = true;
-							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 								serverId: mod.game.me.serverId,
 								zoom: false,
 								name: mod.game.me.name				
@@ -335,7 +398,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						case "rollback":
 							update_bonus(bonus[1]);
 							requested = true;
-							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 								serverId: mod.game.me.serverId,
 								zoom: false,
 								name: mod.game.me.name				
@@ -425,27 +488,74 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				};
 				if(!hold){
 					requested = true;
-					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", 4, {
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
 						name: mod.game.me.name				
 					});
 				};
 				break;
+			case "apply":
+				config.on_apply = !config.on_apply;
+				mod.command.message("Automatic total mod display upon party application: " + `${(config.on_apply ? "enabled" : "disabled")}.clr(clr1)`);
+				if(config.on_apply){
+					applyHook = mod.hook("S_OTHER_USER_APPLY_PARTY", "*", (event) => {
+						requested = true;
+						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+							serverId: event.serverId,
+							zoom: false,
+							name: event.name				
+						});
+					});
+				} else {
+					mod.unhook(applyHook);
+				};
+				break;
 			default:
-				if(arg2){
-					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, shred, inspect, power, equip and add".clr(clr2));
+				if(arg1){
+					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, apply, power, equip and add".clr(clr2));
 					return;
 				};
 		};
 	});
 	
 	
-	mod.hook("S_USER_PAPERDOLL_INFO", 15, (event) => {
+	mod.hook("S_USER_PAPERDOLL_INFO", "*", (event) => {
+		if(tankRequested){
+			if(["Warrior", "Brawler", "Lancer"].indexOf(classes[event.templateId % 100 - 1][0]) === -1){
+				mod.command.message("Tank must be a warrior, a brawler or a lancer".clr(clr2));
+				tankRequested = false;
+				return false;
+			};
+			config.tank = classes[event.templateId % 100 - 1][0].toLowerCase();
+			mod.command.message(`Tank class set to ` + `${config.tank}`.clr(clr1));
+			if(["Warrior", "Lancer"].indexOf(classes[event.templateId % 100 - 1][0]) !== -1){
+				config.tank_res = event.defensePhysical + event.defensePhysicalBonus;
+				mod.command.message(`Tank physical resist set to ` + `${config.tank_res}`.clr(clr1));
+			} else {
+				config.tank_res = event.attackPhysicalMin + event.attackPhysicalMinBonus;
+				mod.command.message(`Tank physical amp set to ` + `${config.tank_res}`.clr(clr1));
+			};
+			mod.saveSettings();
+			tankRequested = false;
+			return false;
+		};
+		if(healerRequested){
+			if(["Priest", "Mystic"].indexOf(classes[event.templateId % 100 - 1][0]) === -1){
+				mod.command.message("Healer must be a priest or a mystic".clr(clr2));
+				healerRequested = false;
+				return false;
+			};
+			config.healer_res = event.defenseMagical + event.defenseMagicalBonus;
+			mod.command.message(`Healer magical resist set to ` + `${config.healer_res}`.clr(clr1));
+			mod.saveSettings();
+			healerRequested = false;
+			return false;
+		};
 		if(requested || config.auto_inspect){
 			
-			if(hold && event.gameId !== mod.game.me.gameId){
-				mod.command.message(`Adding stats for other players is not currently supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2));
+			if(hold && classes[event.templateId % 100 - 1][1] !== classes[mod.game.me.templateId % 100 - 1][1]){
+				mod.command.message(`Adding stats for other players is not currently fully supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2));
 			};
 			
 			if(config.wine_me){
@@ -510,7 +620,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
 					break;
 			}
-			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
+			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0) * 1.05) * aura_mres[config.aura_mres];
 			
 			let piercingPhysicalMultiplier = Math.min( piercingPhysical / (10000 + piercingPhysical), 0.8 );
 			let piercingMagicalMultiplier = Math.min( piercingMagical / (10000 + piercingMagical), 0.8 );
@@ -521,10 +631,12 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 			let bossPhysicalDefenseCapped = Math.max( bossPhysicalDefense, -33333);
 			let bossMagicalDefenseCapped = Math.max( bossMagicalDefense, -33333);
 			
-			let physicalModifier = attackPhysical * (classes[event.templateId % 100 - 1][1] === "phys" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossPhysicalDefenseCapped);
-			let magicalModifier = attackMagical * (classes[event.templateId % 100 - 1][1] === "mag" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossMagicalDefenseCapped);
+			let bossDefenseCapped = (classes[event.templateId % 100 - 1][1] === "phys" ? bossPhysicalDefenseCapped : bossMagicalDefenseCapped);
 			
-			let totalModifier = (critPower * 0.9 + physicalModifier * critPowerPhysical  + magicalModifier * critPowerMagical) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier);
+			let physicalModifier = attackPhysical * (classes[event.templateId % 100 - 1][1] === "phys" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossDefenseCapped);
+			let magicalModifier = attackMagical * (classes[event.templateId % 100 - 1][1] === "mag" ? config.skill_main_mod : config.skill_sec_mod) / 100 / (100000 + bossDefenseCapped);
+			
+			let totalModifier = (0.9 * critPower + (classes[event.templateId % 100 - 1][1] === "phys" ? critPowerPhysical : critPowerMagical) * (physicalModifier + magicalModifier)) * config.crit_rate / 100 + (1 - config.crit_rate / 100) * (1 + physicalModifier + magicalModifier);
 			
 			let powerFactor = (1 + (event.powerBonus + bonusPower) / (100 + event.power)) * (3 + 0.03 * event.power);
 			
@@ -535,17 +647,17 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 			if(config.shred){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
 					mod.command.message(`
-${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}
+${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}
 `.clr(clr3) + `Boss phys defense = ` + `${Math.ceil(bossPhysicalDefenseCapped)} (${Math.ceil(bossPhysicalDefense)})`.clr(clr3));
 				};
 				if(classes[event.templateId % 100 - 1][1] === "mag"){
 					mod.command.message(`
-${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}
+${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}
 `.clr(clr3) + `Boss phys defense = ` + `${Math.ceil(bossMagicalDefenseCapped)} (${Math.ceil(bossMagicalDefense)})`.clr(clr3));
 				};
 			} else {
 				mod.command.message(`
-${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3));
+${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}`.clr(clr3));
 			};
 			
 			requested = false;
@@ -615,12 +727,10 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 				
 				if(item.hasEtching){
 					let promise = new Promise((resolve, reject) => {
-						mod.hookOnce("S_SHOW_ITEM_TOOLTIP", 17, (event) =>{
+						mod.hookOnce("S_SHOW_ITEM_TOOLTIP", "*", (event) =>{
 							let etching = event.etching1;
 							if(fearless.includes(etching)){
-								mod.log(jewel.pcp)
 								jewel.pcp = jewel.pcp + 0.015;
-								mod.log(jewel.pcp)
 								jewel.pamp = jewel.pamp + 983;
 								jewel1.pcp = jewel1.pcp + 0.015;
 								jewel1.pamp = jewel1.pamp + 983;
@@ -663,4 +773,5 @@ ${event.name}`.clr(clr3) +`'s total modifier = ` + `${shortModifier}`.clr(clr3))
 		bonusAttackMagical = jewel.mamp;
 		bonusPower = jewel.power;
 	};
+	
 };
