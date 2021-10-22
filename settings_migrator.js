@@ -28,7 +28,7 @@ module.exports = function MigrateSettings(from_ver, to_ver, settings) {
 	}
 	else { // Migrate from older version (using the new system) to latest one
 		if(from_ver < to_ver) console.log('Your settings have been updated to version ' + to_ver);
-		return Object.assign(DefaultSetting, settings)
+		return Object.assign(DefaultSettings, settings)
 		/*
 		if (from_ver + 1 < to_ver) { // Recursively upgrade in one-version steps
 			settings = MigrateSettings(from_ver, from_ver + 1, settings);
