@@ -89,7 +89,7 @@ module.exports = function Damage(mod){
 			mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 				serverId: mod.game.me.serverId,
 				zoom: false,
-				name: mod.game.me.name				
+				name: mod.game.me.name
 			});
 			return;
 		};
@@ -122,7 +122,7 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 							serverId: mod.game.me.serverId,
 							zoom: false,
-							name: arg3				
+							name: arg3
 						});
 					};
 					return;
@@ -143,10 +143,16 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 					mod.command.message("Input must be a number, a tank class: warrior, lancer or brawler, or an inspect request".clr(clr2));
 					return;
 				};
+			case "st":
 			case "settank":
 			case "setTank":
 				if(!arg2){
-					mod.command.message("Missing name of tank".clr(clr2));
+					tankRequested = !tankRequested;
+					if(tankRequested){
+						mod.command.message("Next tank inspected will be taken as tank");
+					} else {
+						mod.command.message("Next tank inspected will no longer be taken as tank");
+					};
 					return;
 				};
 				if(!arg3){
@@ -154,7 +160,7 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
-						name: arg2				
+						name: arg2
 					});
 				} else if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					tankRequested = true;
@@ -183,7 +189,7 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 							serverId: mod.game.me.serverId,
 							zoom: false,
-							name: arg3				
+							name: arg3
 						});
 					};
 					return;
@@ -196,12 +202,18 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 				mod.command.message(`Healer magical resist set to ` + `${config.healer_res}`.clr(clr1));
 				mod.saveSettings();
 				break;
+			case "sh":
 			case "setheal":
 			case "setHeal":
 			case "sethealer":
 			case "setHealer":
 				if(!arg2){
-					mod.command.message("Missing name of healer".clr(clr2));
+					healerRequested = !healerRequested;
+					if(healerRequested){
+						mod.command.message("Next healer inspected will be taken as healer");
+					} else {
+						mod.command.message("Next healer inspected will no longer be taken as healer");
+					};
 					return;
 				};
 				if(!arg3){
@@ -209,7 +221,7 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
-						name: arg2			
+						name: arg2
 					});
 				} else if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					healerRequested = true;
@@ -406,7 +418,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
-						name: arg2				
+						name: arg2
 					});
 					return;
 				}
@@ -415,7 +427,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: servers[arg3],
 						zoom: false,
-						name: arg2				
+						name: arg2
 					});
 				} else {
 					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen".clr(clr2));
@@ -445,7 +457,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 								serverId: mod.game.me.serverId,
 								zoom: false,
-								name: mod.game.me.name				
+								name: mod.game.me.name
 							});
 							break;
 						case "1":
@@ -455,7 +467,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 							mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 								serverId: mod.game.me.serverId,
 								zoom: false,
-								name: mod.game.me.name				
+								name: mod.game.me.name
 							});
 							break;
 						default:
@@ -545,7 +557,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
-						name: mod.game.me.name				
+						name: mod.game.me.name
 					});
 				};
 				break;
@@ -558,7 +570,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 							serverId: event.serverId,
 							zoom: false,
-							name: event.name				
+							name: event.name
 						});
 					});
 				} else {
@@ -572,8 +584,31 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					});
 				mod.command.message(info);
 				break;
+			case "info":
+			case "help":
+				mod.command.message("Accepted commands are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, apply, power, equip and add");
+				break;
 			default:
-				mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, apply, power, equip and add".clr(clr2));
+				if(!arg2){
+					requested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+						serverId: mod.game.me.serverId,
+						zoom: false,
+						name: arg1				
+					});
+					return;
+				}
+				if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
+					requested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+						serverId: servers[arg2],
+						zoom: false,
+						name: arg1
+					});
+				} else {
+					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen".clr(clr2));
+					return;
+				};
 		};
 	});
 	

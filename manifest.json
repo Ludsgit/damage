@@ -2,12 +2,12 @@
 	"files": {
 		"config.json": {
 			"overwrite": false,
-			"hash": "93138458d5c0e3084842d2f72acb27d466a243054a805ed9c36792c31e69c68f"
+			"hash": "3e43ed2e784ad918787372ac19eb75e5277c6a5c0b93433e7e5fdb8ed6ace32f"
 		},
-		"index.js": "6afdbf1e48c0aedec7b164bc572c669c734d5b75011e27bc2e9dff413087f53d",
+		"index.js": "caf151557f13536b08824e08dc9c76c1583ce98e3d6ddb0b7015442481a2da16",
 		"LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
 		"module.json": "c37d8ea7616b8b2a4aa9382a8df14d5898f2afcd8327a67541e53b33a1c89d6b",
-		"README.md": "ac2529083e4c0b19cd23dcfa5dcdcb4f6d9124c89aee0ac63cb70fa5b62fffa8",
+		"README.md": "31805627702c5e49b54a7d879fb44cd576048a2c70e0405d257671756881c30c",
 		"settings_migrator.js": "91b7a41118f9d3d15e267ca3fac7255cfaa511638b98807bd933d43ea57f4fb5"
 	}
 }

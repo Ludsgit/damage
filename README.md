@@ -11,11 +11,11 @@ All commands start with /8 damage or /8 dmg:
 - - inspect (name): changes tank class to name's class and changes tank resist/amp to name's resist/amp
 - - (value): changes resistance (amp for brawler) to value
 - - (class): changes the class of the tank. Possible classes are "warrior", "brawler" and "lancer"
-- setTank (name) (server): same as "/8 damage inspect tank (name)" and with possibility to set server. Also works with "settank"
+- setTank (name) (server): same as "/8 damage inspect tank (name)" and with possibility to set server. Also works with "settank" and "st"
 - healer: displays current healer's mag resist value. Also works with "heal"
 - - inspect (name): changes healer resistance to name's resistance
 - - (value): changes healer resistance to value
-- setHealer (name) (server): same as "/8 damage inspect healer (name)" and with possibility to set server. Also works with "sethealer", "setheal" and "setHeal"
+- setHealer (name) (server): same as "/8 damage inspect healer (name)" and with possibility to set server. Also works with "sethealer", "setheal", "setHeal" and "sh"
 - wine: displays current wine configuration for self, tank and healer
 - - (user): toggles on/off wine for user. Possible users are "me", "self", "tank", "healer"
 - aura: displays the current tiers of all 4 auras
@@ -38,6 +38,8 @@ All commands start with /8 damage or /8 dmg:
 - add (stat) (value): calculates total mod after adding value to stat. Possible stats are "cp", "pierce", "ignore", "amp", "power". Class passives will be applied to the added stat(s). Currently not supported when inspecting other players; total mod will be wrong if you inspect another type of class than your own
 - add hold: toggles on/off holding the stats added for the previous command. If hold is enabled, total mod calculation has to be manually requested
 - config: prints the current config values
+- info: displays accepted commands. WIP. Also works with "help"
+- (name) (server): same as "/8 damage inspect (name) (server)" if name is not one of the previous commands
 
 ### Math
 
