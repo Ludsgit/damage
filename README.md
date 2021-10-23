@@ -2,7 +2,7 @@
 A tera-toolbox module that calculates the total mod of a character based on ingame stats and the mod settings.
 
 ### Commands
-All commands start with /8 damage:
+All commands start with /8 damage or /8 dmg:
 
 /8 damage: prints your current total mod
 - boss: displays current boss resistance value
@@ -11,9 +11,11 @@ All commands start with /8 damage:
 - - inspect (name): changes tank class to name's class and changes tank resist/amp to name's resist/amp
 - - (value): changes resistance (amp for brawler) to value
 - - (class): changes the class of the tank. Possible classes are "warrior", "brawler" and "lancer"
-- healer: displays current healer's mag resist value
+- setTank (name) (server): same as "/8 damage inspect tank (name)" and with possibility to set server. Also works with "settank"
+- healer: displays current healer's mag resist value. Also works with "heal"
 - - inspect (name): changes healer resistance to name's resistance
 - - (value): changes healer resistance to value
+- setHealer (name) (server): same as "/8 damage inspect healer (name)" and with possibility to set server. Also works with "sethealer", "setheal" and "setHeal"
 - wine: displays current wine configuration for self, tank and healer
 - - (user): toggles on/off wine for user. Possible users are "me", "self", "tank", "healer"
 - aura: displays the current tiers of all 4 auras
@@ -28,13 +30,14 @@ All commands start with /8 damage:
 - shred: displays current shred
 - inspect: toggles on/off display of total mod when inspecting someone
 - - (name) (server): prints total mod of name from server. Possible servers: "Yurian", "Seren", "Mystel", "Shakan", "Velik", "Kaia" and "Shen". If player is in the same server as you, server argument is not needed
-- apply: toggles on/off display fo total mod when someone applies to your party
+- apply: toggles on/off display of total mod when someone applies to your party
 - power: toggles on/off adding power to total mod calculation
-- equip (jewel.): calculates your total mod after equipping a linked ring/earring/circlet/necklace.
-- - - rollback/1: calculates your total mod after equipping the previous set of rolls of a linked ring/earring/circlet/necklace.
-- add: displays whether stats holding is enabled, and if so displays the currently held stats.
+- equip (jewel.): calculates your total mod after equipping a linked ring/earring/circlet/necklace
+- - - rollback/1: calculates your total mod after equipping the previous set of rolls of a linked ring/earring/circlet/necklace
+- add: displays whether stats holding is enabled, and if so displays the currently held stats
 - add (stat) (value): calculates total mod after adding value to stat. Possible stats are "cp", "pierce", "ignore", "amp", "power". Class passives will be applied to the added stat(s). Currently not supported when inspecting other players; total mod will be wrong if you inspect another type of class than your own
-- add hold: toggles on/off holding the stats added for the previous command. If hold is enabled, total mod calculation has to be manually requested.
+- add hold: toggles on/off holding the stats added for the previous command. If hold is enabled, total mod calculation has to be manually requested
+- config: prints the current config values
 
 ### Math
 

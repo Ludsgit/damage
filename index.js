@@ -83,7 +83,7 @@ module.exports = function Damage(mod){
 		applyHook = null;
 	});
 	
-	mod.command.add('damage', (arg1,arg2,arg3) => {
+	mod.command.add(['damage', 'dmg'], (arg1,arg2,arg3) => {
 		if(!arg1){
 			requested = true;
 			mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
@@ -91,6 +91,7 @@ module.exports = function Damage(mod){
 				zoom: false,
 				name: mod.game.me.name				
 			});
+			return;
 		};
 		switch(arg1){
 			case "boss":
@@ -142,6 +143,32 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 					mod.command.message("Input must be a number, a tank class: warrior, lancer or brawler, or an inspect request".clr(clr2));
 					return;
 				};
+			case "settank":
+			case "setTank":
+				if(!arg2){
+					mod.command.message("Missing name of tank".clr(clr2));
+					return;
+				};
+				if(!arg3){
+					tankRequested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+						serverId: mod.game.me.serverId,
+						zoom: false,
+						name: arg3				
+					});
+				} else if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
+					tankRequested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+						serverId: servers[arg3],
+						zoom: false,
+						name: arg2
+					});
+				} else {
+					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen".clr(clr2));
+					return;
+				};
+				break;
+			case "heal":
 			case "healer":
 				if(!arg2){
 					mod.command.message(`
@@ -168,6 +195,33 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 				config.healer_res = parseFloat(arg2);
 				mod.command.message(`Healer magical resist set to ` + `${config.healer_res}`.clr(clr1));
 				mod.saveSettings();
+				break;
+			case "setheal":
+			case "setHeal":
+			case "sethealer":
+			case "setHealer":
+				if(!arg2){
+					mod.command.message("Missing name of healer".clr(clr2));
+					return;
+				};
+				if(!arg3){
+					healerRequested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+						serverId: mod.game.me.serverId,
+						zoom: false,
+						name: arg3				
+					});
+				} else if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
+					healerRequested = true;
+					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
+						serverId: servers[arg3],
+						zoom: false,
+						name: arg2
+					});
+				} else {
+					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen".clr(clr2));
+					return;
+				};
 				break;
 			case "aura":
 				if(!arg2){
@@ -343,7 +397,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 			case "inspect":
 				if(!arg2){
 					config.auto_inspect = !config.auto_inspect;
-					mod.command.message(`Automatic total mod calculation on inspection ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
+					mod.command.message(`Automatic total mod calculation on inspect ` + `${(config.auto_inspect ? "enabled" : "disabled")}`.clr(clr1));
 					mod.saveSettings();
 					return;
 				}
@@ -364,7 +418,7 @@ Skill crit rate: ` + `${config.crit_rate}%`.clr(clr3));
 						name: arg2				
 					});
 				} else {
-					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen");
+					mod.command.message("The accepted servers are Yurian, Mystel, Seren, Shakan, Velik, Kaia and Shen".clr(clr2));
 					return;
 				};
 				break;
@@ -511,11 +565,15 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					mod.unhook(applyHook);
 				};
 				break;
+			case "config":
+				let info = "";
+				Object.keys(config).forEach(key => {
+					info += `\nCurrent ${key}: ` + `${config[key]}`.clr(clr3);
+					});
+				mod.command.message(info);
+				break;
 			default:
-				if(arg1){
-					mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, apply, power, equip and add".clr(clr2));
-					return;
-				};
+				mod.command.message("Command not found. Accepted are boss, tank, healer, aura, wine, curse, sentence, skill, resist, shred, inspect, apply, power, equip and add".clr(clr2));
 		};
 	});
 	
