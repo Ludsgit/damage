@@ -154,7 +154,7 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
-						name: arg3				
+						name: arg2				
 					});
 				} else if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					tankRequested = true;
@@ -209,7 +209,7 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 					mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
 						serverId: mod.game.me.serverId,
 						zoom: false,
-						name: arg3				
+						name: arg2			
 					});
 				} else if(["Yurian", "Mystel", "Seren", "Shakan", "Velik", "Kaia", "Shen"].indexOf(arg3) !== -1){
 					healerRequested = true;
