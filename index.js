@@ -116,7 +116,12 @@ Tank: ` + `${config.tank}`.clr(clr3) + `. Tank's ${(config.tank === "brawler" ? 
 				};
 				if(arg2 === "inspect"){
 					if(!arg3){
-						mod.command.message("Missing name of tank".clr(clr2));
+						tankRequested = !tankRequested;
+						if(tankRequested){
+							mod.command.message("Next tank inspected will be taken as tank");
+						} else {
+							mod.command.message("Next tank inspected will no longer be taken as tank");
+						};
 					} else {
 						tankRequested = true;
 						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {
@@ -183,7 +188,12 @@ Healer resist: ` + `${config.healer_res}`.clr(clr3));
 				};
 				if(arg2 === "inspect"){
 					if(!arg3){
-						mod.command.message("Missing name of healer".clr(clr2));
+						healerRequested = !healerRequested;
+						if(healerRequested){
+							mod.command.message("Next healer inspected will be taken as healer");
+						} else {
+							mod.command.message("Next healer inspected will no longer be taken as healer");
+						};
 					} else {
 						healerRequested = true;
 						mod.toServer("C_REQUEST_USER_PAPERDOLL_INFO", "*", {

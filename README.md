@@ -8,14 +8,18 @@ All commands start with /8 damage or /8 dmg:
 - boss: displays current boss resistance value
 - - (value): changes boss resistance to value
 - tank: displays current tank and its amp/resist value
+- - inspect: change tank's class and amp/resist to that of next tank inspected. Use again to deactivate
 - - inspect (name): changes tank class to name's class and changes tank resist/amp to name's resist/amp
 - - (value): changes resistance (amp for brawler) to value
 - - (class): changes the class of the tank. Possible classes are "warrior", "brawler" and "lancer"
-- setTank (name) (server): same as "/8 damage inspect tank (name)" and with possibility to set server. Also works with "settank" and "st"
+- setTank: change tank's class and amp/resist to that of next tank inspected. Use again to deactivate. Also works with "settank" and "st"
+- - (name) (server): same as "/8 damage inspect tank (name)" and with possibility to set server
 - healer: displays current healer's mag resist value. Also works with "heal"
+- - inspect: change healer resist to that of next healer inspected. Use again to deactivate
 - - inspect (name): changes healer resistance to name's resistance
 - - (value): changes healer resistance to value
-- setHealer (name) (server): same as "/8 damage inspect healer (name)" and with possibility to set server. Also works with "sethealer", "setheal", "setHeal" and "sh"
+- setHealer: change healer resist to that of next healer inspected. Use again to deactivate. Also works with "sethealer", "setheal", "setHeal" and "sh"
+- - (name) (server): same as "/8 damage inspect healer (name)" and with possibility to set server
 - wine: displays current wine configuration for self, tank and healer
 - - (user): toggles on/off wine for user. Possible users are "me", "self", "tank", "healer"
 - aura: displays the current tiers of all 4 auras
