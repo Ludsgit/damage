@@ -717,13 +717,13 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.25 : 0)) * aura_pres[config.aura_pres];
 					break;
 				case "lancer":
-					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 * 1.05 : 0)) * aura_pres[config.aura_pres];
+					tankShred = 0.1 * (config.tank_res + (config.wine_tank ? 4000 : 0)) * aura_pres[config.aura_pres];
 					break;
 				case "brawler":
-					tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 * 1.05 : 0)) * aura_pres[config.aura_amp];
+					tankShred = 0.05 * (config.tank_res + (config.wine_tank ? 8000 : 0)) * aura_pres[config.aura_amp];
 					break;
 			}
-			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0) * 1.05) * aura_mres[config.aura_mres];
+			let healerShred = 0.1 * (config.healer_res + (config.wine_healer ? 4000 : 0)) * aura_mres[config.aura_mres];
 			
 			let piercingPhysicalMultiplier = Math.min( piercingPhysical / (10000 + piercingPhysical), 0.8 );
 			let piercingMagicalMultiplier = Math.min( piercingMagical / (10000 + piercingMagical), 0.8 );
