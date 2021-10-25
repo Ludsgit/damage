@@ -700,7 +700,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					piercingMagical = piercingMagical + bonusAttackMagical * 0.01;
 					break;
 				case "Brawler":
-					attackPhysical = attackPhysical + bonusAttackPhysical * 0.05;
+					attackPhysical = attackPhysical + 0.05 * (bonusAttackPhysical - (config.wine_me ? 8000 : 0));
 					break;
 				default:
 					mod.command.message(`${classes[event.templateId % 100 - 1][0]} passive is currently not supported`);
