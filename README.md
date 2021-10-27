@@ -21,7 +21,7 @@ All commands start with /8 damage or /8 dmg:
 - setHealer: change healer resist to that of next healer inspected. Use again to deactivate. Also works with "sethealer", "setheal", "setHeal" and "sh"
 - - (name) (server): same as "/8 damage inspect healer (name)" and with possibility to set server
 - wine: displays current wine configuration for self, tank and healer
-- - (user): toggles on/off wine for user. Possible users are "me", "self", "tank", "healer"
+- - (user): toggles on/off wine for user. Possible users are "me", "self", "char", "tank", "healer"
 - aura: displays the current tiers of all 4 auras
 - - (type): display current tier of type aura
 - - - (tier): sets type aura to level tier. Possible types are "amp", "pres", "mres", "pierce". Possible tiers are 0 - 5

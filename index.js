@@ -318,16 +318,17 @@ Mag resist aura tier: ` + `${config.aura_mres}`.clr(clr3));
 			case "wine":
 				if(!arg2){
 					mod.command.message(`
-Wine for self is ` + `${(config.wine_me ? "enabled" : "disabled")}`.clr(clr3) + `
+Wine for target char is ` + `${(config.wine_char ? "enabled" : "disabled")}`.clr(clr3) + `
 Wine for tank is ` + `${(config.wine_tank ? "enabled" : "disabled")}`.clr(clr3) + `
 Wine for healer is ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(clr3));
 					return;
 				};
 				switch(arg2){
+					case "char":
 					case "self":
 					case "me":
-						config.wine_me = !config.wine_me;
-						mod.command.message(`Wine on self ` + `${(config.wine_me ? "enabled" : "disabled")}`.clr(clr1));
+						config.wine_char = !config.wine_char;
+						mod.command.message(`Wine on target char ` + `${(config.wine_char ? "enabled" : "disabled")}`.clr(clr1));
 						mod.saveSettings();
 						break;
 					case "tank":
@@ -341,7 +342,7 @@ Wine for healer is ` + `${(config.wine_healer ? "enabled" : "disabled")}`.clr(cl
 						mod.saveSettings();
 						break;
 					default:
-					mod.command.message("Wine user not found. Accepted arguments are me, self, tank and healer".clr(clr2));
+					mod.command.message("Wine user not found. Accepted arguments are me, self, char, tank and healer".clr(clr2));
 				};
 				break;
 			case "curse":
@@ -661,7 +662,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				mod.command.message(`Adding stats for other players is not currently fully supported. Results will only be right for ${classes[mod.game.me.templateId % 100 - 1][1]} classes`.clr(clr2));
 			};
 			
-			if(config.wine_me){
+			if(config.wine_char){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
 					bonusCritPowerPhysical = bonusCritPowerPhysical + 0.05;
 					bonusAttackPhysical = bonusAttackPhysical + 8000;
@@ -700,7 +701,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 					piercingMagical = piercingMagical + bonusAttackMagical * 0.01;
 					break;
 				case "Brawler":
-					attackPhysical = attackPhysical + 0.05 * (bonusAttackPhysical - (config.wine_me ? 8000 : 0));
+					attackPhysical = attackPhysical + 0.05 * (bonusAttackPhysical - (config.wine_char ? 8000 : 0));
 					break;
 				default:
 					mod.command.message(`${classes[event.templateId % 100 - 1][0]} passive is currently not supported`);
@@ -775,7 +776,7 @@ ${event.name}`.clr(clr3) +`'s total mod = ` + `${shortModifier}`.clr(clr3));
 				bonusAttackPhysical = 0;
 				bonusAttackMagical = 0;
 				bonusPower = 0;
-			} else if(config.wine_me){
+			} else if(config.wine_char){
 				if(classes[event.templateId % 100 - 1][1] === "phys"){
 					bonusCritPowerPhysical = bonusCritPowerPhysical - 0.05;
 					bonusAttackPhysical = bonusAttackPhysical - 8000;

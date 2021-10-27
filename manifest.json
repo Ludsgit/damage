@@ -2,12 +2,12 @@
 	"files": {
 		"config.json": {
 			"overwrite": false,
-			"hash": "3248289584867843349b2847df7b34045ba41a666f4bf8d8cf006b0a66fb34e9"
+			"hash": "915111b6664e8131dc1ad1182b74a5db0cd911e14e5f984c632e417f6c88255a"
 		},
-		"index.js": "4ce3b9a0b2931498fa1c8686f4407aaa6244cbc96e4a7106fe508cae17ebe6e1",
+		"index.js": "2c75a2aec063fac1ca771a53ddb15681ec7bd1c7e6f584602d8bb8e93adff9fb",
 		"LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
-		"module.json": "c37d8ea7616b8b2a4aa9382a8df14d5898f2afcd8327a67541e53b33a1c89d6b",
-		"README.md": "4d61ae5e435e38b2e95d08300e25146ff9331e9724620d80ae75cb2bf99d2600",
-		"settings_migrator.js": "6a2624094dc29308a6b62c509e073c7bdac3fbaad06b9c4035f2143565f76734"
+		"module.json": "6e609fb042a0e0dc6398aaf1cf7eb52f788ceb29597ed7d00ff9bab026901ec2",
+		"README.md": "cece2b6079edd9a980c26d6d5d9160fd7c76b3f0232a6f0ba53ae5261754619b",
+		"settings_migrator.js": "a1297a16d301abefdf9a926d57db22ffe6ab65e14051694e46a18d793d0cb761"
 	}
 }

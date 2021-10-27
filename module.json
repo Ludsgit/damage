@@ -8,7 +8,7 @@
         "niceName": "damage",
         "reloadable": true,
         "settingsFile": "config.json",
-        "settingsVersion": 2,
+        "settingsVersion": 3,
         "settingsMigrator": "settings_migrator.js"
     },
     "servers": ["https://raw.githubusercontent.com/Ludsgit/damage/main/"]

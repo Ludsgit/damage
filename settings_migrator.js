@@ -8,7 +8,7 @@ const DefaultSettings = {
     "aura_pres": 5,
     "aura_mres": 5,
     "aura_pierce": 5,
-    "wine_me": true,
+    "wine_char": true,
     "wine_tank": true,
     "wine_healer": true,
     "cruel_curse": true,

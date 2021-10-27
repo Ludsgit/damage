@@ -1,5 +1,5 @@
 {
-    "version": 2,
+    "version": 3,
     "data": {
         "tank_res": 245000,
         "healer_res": 300000,
@@ -8,7 +8,7 @@
         "aura_pres": 5,
         "aura_mres": 5,
         "aura_pierce": 5,
-        "wine_me": true,
+        "wine_char": true,
         "wine_tank": true,
         "wine_healer": true,
         "cruel_curse": true,
