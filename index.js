@@ -573,7 +573,7 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 				break;
 			case "apply":
 				config.on_apply = !config.on_apply;
-				mod.command.message("Automatic total mod display upon party application: " + `${(config.on_apply ? "enabled" : "disabled")}.clr(clr1)`);
+				mod.command.message("Automatic total mod display upon party application: " + `${(config.on_apply ? "enabled" : "disabled")}`.clr(clr1));
 				if(config.on_apply){
 					applyHook = mod.hook("S_OTHER_USER_APPLY_PARTY", "*", (event) => {
 						requested = true;
