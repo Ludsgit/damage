@@ -1,11 +1,11 @@
 {
     "version": 2,
     "data": {
-        "tank_res": 245000,
-        "healer_res": 300000,
-        "boss_res": 120000,
+        "tank_res": 244717,
+        "healer_res": 300015,
+        "boss_res": 92500,
         "aura_amp": 5,
-        "aura_pres": 5,
+        "aura_pres": 4,
         "aura_mres": 5,
         "aura_pierce": 5,
         "wine_me": true,
