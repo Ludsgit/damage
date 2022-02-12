@@ -12,6 +12,8 @@ const aura_mres = [1, 1.02, 1.025, 1.03, 1.035, 1.04];
 const servers = {"Yurian": 28, "Mystel": 38, "Seren": 29, "Shakan": 40, "Shen": 39, "Velik": 43, "Kaia": 42};
 const classes = [["Warrior", "phys"], ["Lancer", "phys"], ["Slayer", "phys"], ["Berserker", "phys"], ["Sorcerer", "mag"], ["Archer", "phys"], ["Priest", "mag"], ["Mystic", "mag"], ["Reaper", "mag"], ["Gunner", "mag"], ["Brawler", "phys"], ["Ninja", "mag"], ["Valkyrie", "phys"]];
 
+const dungeons = {"fl": 92500, "fa":95000, "ss": 111000, "sc": 111000, "aa": 129500, "caa": 120000, "aa-r": 120000};
+
 const jewels = [90170, 90171, 90172, 90173, 90174, 90175, 90176, 90177];
 const circlets = [90176, 90177];
 const new_p_amp = {'5200001': 1365, '5200002': 1624, '5200003': 1931, '5200004': 2297, '5200005': 2730};
@@ -105,6 +107,21 @@ Boss resist value: ` + `${config.boss_res}`.clr(clr3));
 					return;
 				};
 				config.boss_res = parseFloat(arg2);
+				mod.command.message(`Boss resist set to ` + `${config.boss_res}`.clr(clr1));
+				mod.saveSettings();
+				break;
+			case "dungeon":
+			case "dng":
+				if(!arg2){
+					mod.command.message(`
+Accepted dungeons are ` + `${Object.keys(dungeons)}`.clr(clr2));
+					return;
+				};
+				if(!Object.keys(dungeons).includes(arg2)){
+					mod.command.message("Dungeon not accepted".clr(clr2));
+					return;
+				};
+				config.boss_res = dungeons[arg2];
 				mod.command.message(`Boss resist set to ` + `${config.boss_res}`.clr(clr1));
 				mod.saveSettings();
 				break;

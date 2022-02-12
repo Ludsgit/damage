@@ -7,6 +7,8 @@ All commands start with /8 damage or /8 dmg:
 /8 damage: prints your current total mod
 - boss: displays current boss resistance value
 - - (value): changes boss resistance to value
+- dungeon: displays accepted dungeons. Also works with "dng"
+- - (dungeon): changes boss resistance to that of the selected dungeon
 - tank: displays current tank and its amp/resist value
 - - inspect: changes tank's class and amp/resist to that of next tank inspected. Use again to deactivate
 - - - (name): changes tank class to name's class and changes tank resist/amp to name's resist/amp
