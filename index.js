@@ -114,7 +114,7 @@ Boss resist value: ` + `${config.boss_res}`.clr(clr3));
 			case "dng":
 				if(!arg2){
 					mod.command.message(`
-Accepted dungeons are ` + `${Object.keys(dungeons)}`.clr(clr2));
+Accepted dungeons are ` + `${Object.keys(dungeons)}`);
 					return;
 				};
 				if(!Object.keys(dungeons).includes(arg2)){
