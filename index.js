@@ -684,14 +684,14 @@ Bonus power set to: ` + `${bonusPower}`.clr(clr1));
 			
 			switch(classes[event.templateId % 100 - 1][0]){
 				case "Warrior":
-					defenseIgnorePhysical = defenseIgnorePhysical + bonusCritPowerPhysical * 15000;
+					defenseIgnorePhysical = defenseIgnorePhysical + bonusCritPowerPhysical * 10000;
 					break;
 				case "Slayer":
 					defenseIgnorePhysical = defenseIgnorePhysical + bonusAttackPhysical * 0.04;
 					defenseIgnorePhysical = defenseIgnorePhysical + 0.02 * attackPhysical;
 					break;
 				case "Archer":
-					piercingPhysical = piercingPhysical + bonusCritPowerPhysical * (mod.majorPatchVersion >= 111 ? 2500 : 5000);
+					piercingPhysical = piercingPhysical + bonusCritPowerPhysical * 2500;
 					break;
 				case "Reaper":
 					defenseIgnoreMagical = defenseIgnoreMagical + bonusAttackMagical * 0.04;
